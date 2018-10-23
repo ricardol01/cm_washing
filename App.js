@@ -10,9 +10,9 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import Home from './src/Components/Home/Home.js';
+import Checkout from './src/Components/Checkout/Checkout.js';
 
-Navigation.registerComponent('home', () => Home);
+Navigation.registerComponent('home', () => Checkout);
 
 Navigation.startSingleScreenApp({
   screen: {
