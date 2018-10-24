@@ -10,15 +10,21 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Cart from '../Cart/Cart'
 import Picker from '../Common/Picker/Picker'
+import PopupView from '../Common/Popup/PopupView'
 
 type Props = {};
 export default class Home extends Component<Props> {
-  
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.popupView = PopupView.getInstance();
+  }
+
   render() {
 
     return (<View style={styles.container}>
 
-      <TouchableOpacity onPress={() => this.Cart.show()} style={{
+      <TouchableOpacity onPress={() => this.popupView.showAlert(this, "错误信息") } style={{
           width: (180),
           height: (35),
           justifyContent: 'center',
@@ -33,7 +39,7 @@ export default class Home extends Component<Props> {
         <Text>123</Text>
       </TouchableOpacity >
       <Cart ref={ref => this.Cart = ref}/>
-
+      {this.state.showPopup && this.popupView.show()}
     </View>);
   }
 }
