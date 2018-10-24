@@ -8,18 +8,38 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import { Navigation } from 'react-native-navigation';
+import {Navigation} from 'react-native-navigation';
+import Common from './src/Constants/Common'
 
-import Checkout from './src/Components/Checkout/Checkout.js';
+import Home from './src/Components/Home/Home';
+import Orders from './src/Components/Orders/Orders';
+import Settings from './src/Components/Settings/Settings';
 
-Navigation.registerComponent('home', () => Checkout);
+Navigation.registerComponent('home', () => Home);
+Navigation.registerComponent('orders', () => Orders);
+Navigation.registerComponent('settings', () => Settings);
 
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'home',
-    navigatorStyle: {navBarHidden: true},
-    navigatorButtons: {},
-  },
-  animated: true,
-  animationType: 'fade',
-})
+Navigation.startTabBasedApp({
+  tabs: [
+    {
+      label: '主页',
+      screen: 'home',
+      icon: require('./Image/home.png'),
+      title: '主页'
+    }, {
+      label: '订单',
+      screen: 'orders',
+      icon: require('./Image/orders.png'),
+      title: '订单'
+    }, {
+      label: '设置',
+      screen: 'settings',
+      icon: require('./Image/settings.png'),
+      title: '设置'
+    }
+  ],
+  tabsStyle: {
+    tabBarSelectedButtonColor: Common.MAIN_COLOR,
+    initialTabIndex: 0,
+  }
+});
