@@ -8,6 +8,8 @@ import {
   FlatList,
 } from 'react-native';
 
+import CartItemListCell from './CartItemListCell'
+
 export default class CartItemList extends Component {
 
   constructor(props) {
@@ -15,17 +17,13 @@ export default class CartItemList extends Component {
   }
   renderItemCells(item){
     return (
-      <View style={{backgroundColor: 'white', height: 32, flexDirection: 'row'}}>
-        <View style={{flex: 2, backgroundColor: 'black'}}></View>
-        <View style={{flex: 4, backgroundColor: 'green'}}></View>
-        <View style={{flex: 2, backgroundColor: 'blue'}}></View>
-      </View>
+      <CartItemListCell item={item} onPressedQuantity={this.props.onPressedQuantity} />
     )
   }
   render() {
     return (
       <FlatList
-        data={[{title: 'Title Text', key: 'item1'}, {title: 'Title Text', key: 'item1'}, {title: 'Title Text', key: 'item1'}]}
+        data={this.props.items}
         renderItem={({item}) => (
           this.renderItemCells(item)
         )}

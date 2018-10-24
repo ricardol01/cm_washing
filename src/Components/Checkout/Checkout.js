@@ -13,7 +13,9 @@ import Picker from '../Common/Picker/Picker'
 
 type Props = {};
 export default class Home extends Component<Props> {
+  
   render() {
+
     return (<View style={styles.container}>
 
       <TouchableOpacity onPress={() => this.Cart.show()} style={{
