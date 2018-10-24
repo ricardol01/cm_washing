@@ -28,7 +28,7 @@ export default class CheckoutUserInfo extends Component{
             <Text style={{fontWeight: '700', fontSize: 13,}}>自送自取</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.container}>
+        <View style={this.props.cardStyle}>
           <View style={styles.content}>
             <Text style={{fontWeight: '800', color: Common.MAIN_COLOR, marginBottom: 10, fontSize: 14,}}>自取地址</Text>
             <View style={{flexDirection: 'row', justifyContent:'space-between', marginBottom: 10,}}>
@@ -44,19 +44,6 @@ export default class CheckoutUserInfo extends Component{
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    marginLeft: 12,
-    marginRight: 12,
-    marginBottom: 5,
-    borderRadius: 6,
-    elevation: 5,
-    shadowOffset: {width: 0, height: 0},
-    shadowColor: 'grey',
-    shadowOpacity: 0.4,
-    shadowRadius: 2
-  },
   content: {
     marginTop: 16,
     marginBottom: 16,
