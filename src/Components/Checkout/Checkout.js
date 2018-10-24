@@ -1,64 +1,54 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import Cart from '../Cart/Cart'
-import Picker from '../Common/Picker/Picker'
-import PopupView from '../Common/Popup/PopupView'
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList
+} from 'react-native';
 
-type Props = {};
-export default class Home extends Component<Props> {
+import CheckoutDelivery from './Subview/CheckoutDelivery.js'
+import CheckoutUserInfo from './Subview/CheckoutUserInfo.js'
+import CheckoutPayment from './Subview/CheckoutPayment.js'
+import CheckoutOrderInfo from './Subview/CheckoutOrderInfo.js'
+
+export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.popupView = PopupView.getInstance();
   }
 
+  renderItemCells(item) {
+    switch (item) {
+      case "delivery":
+        return (<CheckoutDelivery/>)
+        break;
+      case "userInfo":
+        return (<CheckoutUserInfo/>)
+        break;
+      case "payment":
+        return (<CheckoutPayment/>)
+        break;
+      case "orderInfo":
+        return (<CheckoutOrderInfo/>)
+        break;
+      default:
+        return (<View/>)
+    }
+  }
   render() {
+    return (
+      <View style={styles.container}>
+        <FlatList data={['delivery', 'userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
+      </View>
 
-    return (<View style={styles.container}>
-
-      <TouchableOpacity onPress={() => this.popupView.showAlert(this, "错误信息") } style={{
-          width: (180),
-          height: (35),
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderColor: '#999999',
-          borderWidth: this.mOnePixel,
-          padding: (10),
-          backgroundColor: '#cccccc',
-          borderRadius: (4),
-          marginBottom: (20)
-        }}>
-        <Text>123</Text>
-      </TouchableOpacity >
-      <Cart ref={ref => this.Cart = ref}/>
-      {this.state.showPopup && this.popupView.show()}
-    </View>);
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+    backgroundColor: '#F0F0F0',
   }
 });
