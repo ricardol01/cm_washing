@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 16,
     marginBottom: 16,
-    marginLeft: 24,
-    marginRight: 24,
+    marginLeft: 18,
+    marginRight: 18,
 
   },
   icon: {

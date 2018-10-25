@@ -1,49 +1,65 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList
+} from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import OrderCell from './OrderCell.js'
 
-type Props = {};
-export default class Home extends Component<Props> {
+export default class Order extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      orders: [
+        1,2,3
+      ]
+    }
+  }
+
+  onPressedCell(key){
+    console.log(key);
+  }
+
+  renderCells(item) {
+    return (
+      <OrderCell
+        cardStyle={styles.card}
+        onPressedCell={this.onPressedCell}
+      />
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <FlatList style={{marginTop: 6}} data={this.state.orders} renderItem={({item}) => (this.renderCells(item))}/>
       </View>
-    );
+
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F0F0F0',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
+  card: {
+    flex: 1,
+    backgroundColor: 'white',
+    marginLeft: 12,
+    marginRight: 12,
     marginBottom: 5,
+    marginTop: 5,
+    borderRadius: 6,
+    elevation: 5,
+    shadowOffset: {width: 0, height: 0},
+    shadowColor: 'grey',
+    shadowOpacity: 0.3,
+    shadowRadius: 2
   },
 });

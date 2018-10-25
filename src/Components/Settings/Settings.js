@@ -68,7 +68,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList data={this.state.cells} renderItem={({item}) => (this.renderCells(item))}/>
+        <FlatList style={{marginTop: 6}} data={this.state.cells} renderItem={({item}) => (this.renderCells(item))}/>
       </View>
 
     )
