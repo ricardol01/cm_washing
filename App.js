@@ -8,32 +8,18 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
+import Home from './src/Components/Home/Home.js';
 
-type Props = {};
-export default class Home extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
+Navigation.registerComponent('home', () => Home);
 
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'home',
+    navigatorStyle: {navBarHidden: true},
+    navigatorButtons: {},
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+  animated: true,
+  animationType: 'fade',
+})
