@@ -14,7 +14,8 @@ FlatList,
 } from 'react-native';
 const { height, width } = Dimensions.get('window');
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-
+import HomeAction from '../../Actions/HomeAction';
+import HomeStore from '../../Stores/HomeStore';
 type Props = {};
 export default class Home extends Component<Props> {
   constructor(){
@@ -30,9 +31,10 @@ export default class Home extends Component<Props> {
         }
       ]
     }
+    this._onChange=this._onChange.bind(this);
   }
   componentDidMount() {
-
+    HomeStore.addChangeListener(this._onChange);
     setTimeout(() => {
       this.props.navigator.showModal({
          screen: "CmWashingHomeAlert",
@@ -43,7 +45,17 @@ export default class Home extends Component<Props> {
          navigatorStyle: {navBarHidden: true},
         });
     }, 6000);
+    HomeAction.getProductList();
 
+}
+componentWillUnmount() {
+  HomeStore.removeChangeListener(this._onChange);
+}
+_onChange(){
+    console.log('onchange')
+    const state = Object.assign({},HomeStore.getState());
+    this.setState(state);
+    console.log(this.state);
 }
   _renderProduct({item}) {
     return(

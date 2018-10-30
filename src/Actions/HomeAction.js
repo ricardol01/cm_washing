@@ -1,13 +1,13 @@
 import AppConstants from '../Constants/AppConstants';
 import {dispatch, register} from '../Dispatchers/AppDispatcher';
 
-import OrderModule from '../Modules/OrderModule/OrderModule';
+import HomeModule from '../Modules/HomeModule/HomeModule';
 import {NativeModules} from 'react-native';
 export default {
 
-    async getProductList(io_data) {
+    async getProductList() {
       try{
-        const data = await OrderModule.getHistoryOrder(io_data);
+        const data = await HomeModule.getProductList();
         dispatch({
              actionType: AppConstants.PRODUCT_LIST,data
          })

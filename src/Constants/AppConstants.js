@@ -1,3 +1,4 @@
 module.exports ={
     HISTORY_ORDER:'HISTORY_ORDER',
+    PRODUCT_LIST:'PRODUCT_LIST',
 }
