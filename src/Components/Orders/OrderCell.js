@@ -8,7 +8,11 @@ import {
   FlatList,
   Image,
 } from 'react-native';
+
 import Common from '../../Constants/Common'
+import Separator from '../Common/Separator'
+
+import OrderItemList from './OrderItemList'
 
 export default class OrderCell extends Component{
   constructor(props) {
@@ -65,10 +69,28 @@ export default class OrderCell extends Component{
       </View>
     )
   }
-  renderOrder(){
+  renderOrderItems(){
     return (
       <View style={styles.order}>
+        <OrderItemList/>
       </View>
+    )
+  }
+  renderOrderSummary(){
+    return (
+      <View style={styles.orderSummary}>
+        <Text style={[styles.orderSummaryText, {}]}>运费: $4.99</Text>
+        <Text style={[styles.orderSummaryText, {}]}>税: $4.99</Text>
+        <Text style={[styles.orderSummaryText, {fontSize: 14, color: Common.MAIN_COLOR, marginBottom: 0}]}>总计: $4.99</Text>
+      </View>
+    )
+  }
+  renderOrderComment(){
+    return (
+      <View style={{borderRadius: 4, backgroundColor: '#F0F0F0', marginTop: 6, }}>
+        <Text style={styles.orderCommentText}>我是备注</Text>
+      </View>
+
     )
   }
   render() {
@@ -78,10 +100,13 @@ export default class OrderCell extends Component{
           <View style={styles.content}>
             {this.renderHeader()}
             {this.renderDeliverInfo()}
-            <View style={{ borderBottomColor: '#999999', borderBottomWidth: 0.8, }} />
+            <Separator/>
             {this.renderDeliverTime()}
-            <View style={{ borderBottomColor: '#999999', borderBottomWidth: 0.8, }} />
-            {this.renderOrder()}
+            <Separator/>
+            {this.renderOrderItems()}
+            <Separator/>
+            {this.renderOrderSummary()}
+            {this.renderOrderComment()}
           </View>
         </View>
       </View>
@@ -115,8 +140,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 12,
+    fontWeight: '900',
     color: 'white',
     alignItems: 'center',
     alignSelf: 'center'
@@ -154,6 +179,26 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   order: {
-    height: 28
+    marginTop: 6,
+    marginBottom: 6,
+  },
+  orderSummary: {
+    marginTop: 6,
+    marginBottom: 6,
+    alignSelf: 'flex-end'
+  },
+  orderSummaryText: {
+    fontWeight: '700',
+    fontSize: 12,
+    textAlign: 'right',
+    marginBottom: 6,
+  },
+  orderCommentText: {
+    flex: 1,
+    padding: 8,
+    fontWeight: '700',
+    fontSize: 11,
+    borderRadius: 10,
+    color: '#565656',
   }
 });

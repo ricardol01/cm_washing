@@ -10,34 +10,26 @@ import {
 import OrderAction from '../../Actions/OrderAction';
 import OrderStore from '../../Stores/OrderStore';
 import OrderCell from './OrderCell.js'
-
 export default class Order extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orders: [
-        1,2,3
-      ]
+      orders: [1, 2, 3]
     }
-    this._onChange=this._onChange.bind(this)
+    this._onChange = this._onChange.bind(this)
   }
-  _onChange()
-  {
+  _onChange() {
 
   }
-  componentDidMount(){
-
-			OrderStore.addChangeListener(this._onChange);
-
-    }
-    componentWillUnmount() {
-			OrderStore.removeChangeListener(this._onChange);
-    }
-
-  onPressedCell(key){
+  componentDidMount() {
+    OrderStore.addChangeListener(this._onChange);
+  }
+  componentWillUnmount() {
+    OrderStore.removeChangeListener(this._onChange);
+  }
+  onPressedCell(key) {
     console.log(key);
   }
-
   renderCells(item) {
     return (
       <OrderCell
