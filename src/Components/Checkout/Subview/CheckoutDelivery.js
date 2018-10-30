@@ -32,7 +32,7 @@ export default class CheckoutUserInfo extends Component{
           <View style={styles.content}>
             <Text style={{fontWeight: '800', color: Common.MAIN_COLOR, marginBottom: 10, fontSize: 14,}}>自取地址</Text>
             <View style={{flexDirection: 'row', justifyContent:'space-between', marginBottom: 10,}}>
-              <Text style={{fontWeight: '700', fontSize: 13,}}>North York</Text>
+              <Text style={{fontWeight: '600', fontSize: 13,}}>North York</Text>
               <Text>></Text>
             </View>
           </View>
