@@ -11,7 +11,10 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
   },
   initState(){
     this.state = {
-      orderList:[],
+      orderList:{
+        ea_products:[],
+        ea_categories:[],
+      },
       };
   },
 	emitChange(){

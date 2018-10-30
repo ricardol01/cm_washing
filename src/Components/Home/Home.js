@@ -20,17 +20,8 @@ type Props = {};
 export default class Home extends Component<Props> {
   constructor(){
     super();
+        this.state = HomeStore.getState();
     this._renderProduct=this._renderProduct.bind(this);
-    this.state={
-      prod_list:[
-        {
-          name:'1',
-        },
-        {
-          name:'2',
-        }
-      ]
-    }
     this._onChange=this._onChange.bind(this);
   }
   componentDidMount() {
@@ -55,20 +46,46 @@ _onChange(){
     console.log('onchange')
     const state = Object.assign({},HomeStore.getState());
     this.setState(state);
-    console.log(this.state);
+    console.log(this.state.orderList);
 }
   _renderProduct({item}) {
+    const _display_price = () => {
+      if (item.display_price!=item.original_price) {
+        return (
+          <Text style={{marginLeft:12,fontSize:14,
+            color:'#999999',textDecorationLine:'line-through'}}>${item.original_price}</Text>
+        )
+      }
+
+    }
     return(
       <View style={{width:0.5*width,height:0.25*height,
       alignItems:'center',
       justifyContent:'center',}}>
         <View style={{width:0.45*width,height:0.22*height,backgroundColor:'white',borderRadius:10,}}>
-          <View style={{flex:2  ,backgroundColor:'red'}}>
-            <Image source={require('./image/Cart.png')}
-            style={{resizeMode:'stretch'}}
+          <View style={{flex:2  ,}}>
+            <Image source={{uri:'http://norgta.com/storage/image/cm_clean/15408365468031.png'}}
+              style={{flex:1}}
             />
           </View>
-          <View style={{flex:1,backgroundColor:'blue'}}>
+          <View style={{flex:1,}}>
+            <View style={{flex:1,justifyContent:'center'}}>
+              <Text style={{marginLeft:10,fontSize:16}}>
+                {item.name_zh}
+              </Text>
+            </View>
+            <View style={{flex:1,flexDirection:'row'}}>
+              <View style={{flex:1,flexDirection:'row',}}>
+                <Text style={{marginLeft:10,fontSize:16,color:'#2ad3be'}}>
+                  ${item.display_price}
+                </Text>
+                {_display_price()}
+
+              </View>
+              <View style={{flex:1}}>
+              </View>
+            </View>
+
           </View>
         </View>
       </View>
@@ -130,7 +147,7 @@ _onChange(){
                           ref={(comp) => this._scrollVew = comp}
                           onEndReached={this._onEndReached}
                           onEndReachedThreshold={0.3}
-                          data={this.state.prod_list}
+                          data={this.state.orderList.ea_products}
                           renderItem={this._renderProduct}
                           getItemLayout={(data, index) => (
                                {length: 250, offset: 250 * index, index}

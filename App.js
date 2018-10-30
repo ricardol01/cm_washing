@@ -16,15 +16,11 @@ import Orders from './src/Components/Orders/Orders';
 import Settings from './src/Components/Settings/Settings';
 import CmWashingHomeAlert from './src/Components/HomeAlert/CmWashingHomeAlert';
 
-import CmWashingCartAlert from './src/Components/HomeAlert/CmWashingCartAlert';
-
-import CmWashingAddressAlert from './src/Components/HomeAlert/CmWashingAddressAlert';
 Navigation.registerComponent('home', () => Home);
 Navigation.registerComponent('orders', () => Orders);
 Navigation.registerComponent('settings', () => Settings);
 Navigation.registerComponent('CmWashingHomeAlert', () => CmWashingHomeAlert);
-Navigation.registerComponent('CmWashingAddressAlert', () => CmWashingAddressAlert);
-Navigation.registerComponent('CmWashingCartAlert', () => CmWashingCartAlert);
+
 Navigation.startTabBasedApp({
   tabs: [
     {
