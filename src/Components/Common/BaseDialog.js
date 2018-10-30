@@ -7,7 +7,7 @@ import {
     Platform
 } from 'react-native';
 
-import BaseComponent from '../BaseComponent';
+import BaseComponent from './BaseComponent';
 
 export default class BaseDialog extends BaseComponent {
 

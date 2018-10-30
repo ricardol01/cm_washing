@@ -31,6 +31,20 @@ export default class Home extends Component<Props> {
       ]
     }
   }
+  componentDidMount() {
+
+    setTimeout(() => {
+      this.props.navigator.showModal({
+         screen: "CmWashingHomeAlert",
+         passProps: {
+           message:"1111111"
+         },
+         animated: false,
+         navigatorStyle: {navBarHidden: true},
+        });
+    }, 6000);
+
+}
   _renderProduct({item}) {
     return(
       <View style={{width:0.5*width,height:0.25*height,

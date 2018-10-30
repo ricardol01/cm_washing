@@ -10,7 +10,7 @@ import {
   PixelRatio
 } from 'react-native';
 
-import BaseDialog from './BaseDialog';
+import BaseDialog from '../BaseDialog';
 
 import PickerView from './PickerView';
 
