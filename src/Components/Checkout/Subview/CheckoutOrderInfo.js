@@ -7,11 +7,43 @@ import {
   TouchableOpacity,
   FlatList
 } from 'react-native';
+
 import Common from '../../../Constants/Common'
+import CheckoutOrderList from './CheckoutOrderList'
+import Separator from '../../Common/Separator'
 
 export default class CheckoutUserInfo extends Component{
   constructor(props) {
     super(props);
+  }
+
+  onPressedRemove(){
+    console.log(123);
+  }
+  renderOrderItems(){
+    return (
+      <View style={styles.order}>
+        <CheckoutOrderList onPressedRemove={this.onPressedRemove}/>
+      </View>
+    )
+  }
+
+  renderOrderSummary(){
+    return (
+      <View style={styles.orderSummary}>
+        <Text style={[styles.orderSummaryText, {}]}>运费: $4.99</Text>
+        <Text style={[styles.orderSummaryText, {}]}>税: $4.99</Text>
+        <Text style={[styles.orderSummaryText, {fontSize: 14, color: Common.MAIN_COLOR, marginBottom: 0}]}>总计: $4.99</Text>
+      </View>
+    )
+  }
+
+  renderOrderComment(){
+    return (
+      <View style={{borderRadius: 4, backgroundColor: '#F0F0F0', marginTop: 6, }}>
+        <Text style={styles.orderCommentText}>我是备注</Text>
+      </View>
+    )
   }
 
   render() {
@@ -19,6 +51,10 @@ export default class CheckoutUserInfo extends Component{
       <View style={this.props.cardStyle}>
         <View style={styles.content}>
           <Text style={{fontWeight: '800', color: Common.MAIN_COLOR, marginBottom: 10, fontSize: 14,}}>订单小计</Text>
+          {this.renderOrderItems()}
+          <Separator/>
+          {this.renderOrderSummary()}
+          {this.renderOrderComment()}
         </View>
       </View>
     )
@@ -31,5 +67,24 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginLeft: 24,
     marginRight: 24,
+  },
+  orderSummary: {
+    marginTop: 6,
+    marginBottom: 6,
+    alignSelf: 'flex-end'
+  },
+  orderSummaryText: {
+    fontWeight: '700',
+    fontSize: 12,
+    textAlign: 'right',
+    marginBottom: 6,
+  },
+  orderCommentText: {
+    flex: 1,
+    padding: 8,
+    fontWeight: '700',
+    fontSize: 11,
+    borderRadius: 10,
+    color: '#565656',
   }
 });

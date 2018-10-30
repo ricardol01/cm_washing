@@ -8,9 +8,8 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import Common from '../../Constants/Common'
 
-export default class OrderItemList extends Component{
+export default class CheckoutOrderList extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -45,8 +44,12 @@ export default class OrderItemList extends Component{
         <View style={{flex: 8,justifyContent: 'center', marginLeft: -4}}>
           <Text style={[styles.text, {marginLeft: 20,}]}>{item.name}</Text>
         </View>
-        <View style={{flex: 2,justifyContent: 'center',}}>
+        <View style={{flex: 2,justifyContent: 'center', flexDirection: 'row'}}>
           <Text style={[styles.text, {marginLeft: 10,}]}>$ {parseFloat(Math.round(item.price * item.quantity * 100) / 100).toFixed(2)}</Text>
+
+          <TouchableOpacity style={{marginLeft: 10,}} onPress={this.props.onPressedRemove}>
+            <Image style={{width: 18, height: 18, backgroundColor: 'black', justifyContent: 'center',alignItems: 'center'}}></Image>
+          </TouchableOpacity>
         </View>
       </View>
     )
@@ -63,7 +66,7 @@ export default class OrderItemList extends Component{
   render() {
     const listHeight = 30 * this.state.items.length;
     return (
-      <View style={{height: listHeight}}>
+      <View style={{height: listHeight, marginBottom: 8}}>
         {this.renderItemList()}
       </View>
     )
