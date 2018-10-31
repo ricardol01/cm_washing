@@ -11,6 +11,7 @@ import {Platform, StyleSheet, Text, View,Dimensions,
 Image,
 Animated,
 FlatList,
+TouchableOpacity,
 } from 'react-native';
 const { height, width } = Dimensions.get('window');
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -23,6 +24,8 @@ export default class Home extends Component<Props> {
         this.state = HomeStore.getState();
     this._renderProduct=this._renderProduct.bind(this);
     this._onChange=this._onChange.bind(this);
+    this._addItem=this._addItem.bind(this);
+    this._removeItem=this._removeItem.bind(this);
   }
   componentDidMount() {
     HomeStore.addChangeListener(this._onChange);
@@ -48,14 +51,53 @@ _onChange(){
     this.setState(state);
     console.log(this.state.orderList);
 }
+_addItem(item)
+{
+
+  HomeStore.add_item(item);
+  const state = Object.assign({},HomeStore.getState());
+  this.setState(state);
+}
+_removeItem(item)
+{
+  HomeStore.remove_item(item);
+  const state = Object.assign({},HomeStore.getState());
+  this.setState(state);
+}
   _renderProduct({item}) {
     const _display_price = () => {
       if (item.display_price!=item.original_price) {
         return (
           <Text style={{marginLeft:12,fontSize:14,
-            color:'#999999',textDecorationLine:'line-through'}}>${item.original_price}</Text>
+            color:'#999999',textDecorationLine:'line-through'}}>${item.original_price+' '+item.unit}</Text>
         )
       }
+
+    }
+    const _display_remove=()=>{
+      if (HomeStore.get_item_amount(item)!=0) return(
+        <TouchableOpacity onPress={()=>{this._removeItem(item)}} style={{flex:1,}}>
+          <View style={{flex:1,marginBottom:5,backgroundColor:'#2ad3be',borderRadius:40,
+           alignItems:'center',justifyContent:'center',}}>
+           <Text style={{marginBottom:5,fontSize:16,color:'white'}}>
+             -
+           </Text>
+
+          </View>
+
+        </TouchableOpacity>);
+      return (
+        <TouchableOpacity onPress={()=>{this._removeItem(item)}} style={{flex:1,}}>
+          <View style={{flex:1,marginBottom:5,backgroundColor:'#b3b3b3',borderRadius:40,
+           alignItems:'center',justifyContent:'center',}}>
+           <Text style={{marginBottom:5,fontSize:16,color:'white'}}>
+             -
+           </Text>
+
+          </View>
+
+        </TouchableOpacity>
+      )
 
     }
     return(
@@ -64,7 +106,7 @@ _onChange(){
       justifyContent:'center',}}>
         <View style={{width:0.45*width,height:0.22*height,backgroundColor:'white',borderRadius:10,}}>
           <View style={{flex:2  ,}}>
-            <Image source={{uri:'http://norgta.com/storage/image/cm_clean/15408365468031.png'}}
+            <Image source={{uri:item.url}}
               style={{flex:1}}
             />
           </View>
@@ -77,12 +119,27 @@ _onChange(){
             <View style={{flex:1,flexDirection:'row'}}>
               <View style={{flex:1,flexDirection:'row',}}>
                 <Text style={{marginLeft:10,fontSize:16,color:'#2ad3be'}}>
-                  ${item.display_price}
+                  ${item.display_price+' '+item.unit}
                 </Text>
                 {_display_price()}
 
               </View>
-              <View style={{flex:1}}>
+              <View style={{flexDirection:'row',flex:1,}}>
+                {_display_remove()}
+                <View style={{flex:2, alignItems:'center',justifyContent:'center',}}>
+                  <Text style={{color:'#404041',fontSize:16,marginBottom:5,}}>
+                    {HomeStore.get_item_amount(item)}
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={()=>{this._addItem(item)}} style={{flex:1,}}>
+                  <View style={{flex:1,marginBottom:5,backgroundColor:'#2ad3be',borderRadius:40,
+                   alignItems:'center',justifyContent:'center',}}>
+                    <Text style={{marginBottom:5,fontSize:16,color:'white'}}>
+                      +
+                    </Text>
+                  </View>
+
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -153,7 +210,7 @@ _onChange(){
                                {length: 250, offset: 250 * index, index}
                              )}
                          numColumns={2}
-                         columnWrapperStyle={{ marginTop: 10,alignSelf:'center' }}
+                         columnWrapperStyle={{ marginTop: 10,}}
                       />
             </Animated.View>
             <Animated.View tabLabel="衣服" style={{flex:1}}>

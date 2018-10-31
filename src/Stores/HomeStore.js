@@ -8,6 +8,7 @@ const CHANGE_EVENT = 'change';
 const RestaurantStore = Object.assign({},EventEmitter.prototype,{
   state:{
     orderList:[],
+    cart_products:[],
   },
   initState(){
     this.state = {
@@ -16,6 +17,55 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
         ea_categories:[],
       },
       };
+  },
+  add_item(item)
+  {
+    let find=-1;
+    let cart=this.state.cart_products;
+    for (i=0;i<cart.length;i++)
+    {
+      if (cart[i].sku_id==item.sku_id)
+      {
+        cart[i].amount++;
+        find=i;
+      }
+    }
+    if (find==-1) {
+      let new_item={
+        sku_id:item.sku_id,
+        amount:1,
+      }
+      cart.push(new_item);
+    }
+    this.state.cart_products=cart;
+  },
+  remove_item(item)
+  {
+    let cart=this.state.cart_products;
+    for (i=0;i<cart.length;i++)
+    {
+      if (cart[i].sku_id==item.sku_id)
+      {
+        cart[i].amount--;
+      }
+    }
+    this.state.cart_products=cart;
+  },
+  get_item()
+  {
+    return this.state.cart_products;
+  },
+  get_item_amount(item)
+  {
+    let cart=this.state.cart_products;
+    for (i=0;i<cart.length;i++)
+    {
+      if (cart[i].sku_id==item.sku_id)
+      {
+        return cart[i].amount;
+      }
+    }
+    return 0;
   },
 	emitChange(){
 			this.emit(CHANGE_EVENT)
