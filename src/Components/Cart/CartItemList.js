@@ -15,23 +15,24 @@ export default class CartItemList extends Component {
   constructor(props) {
     super(props);
   }
-  renderItemCells(item){
-    return (
-      <CartItemListCell item={item} onPressedQuantity={this.props.onPressedQuantity} />
-    )
+  renderItemCells(){
+    let cells = [];
+    console.log();
+    if (!this.props.items){
+      return cells;
+    }
+    for (i of this.props.items){
+      cells.push(
+        <CartItemListCell item={i} onPressedQuantity={this.props.onPressedQuantity} />
+      );
+    }
+    return cells;
   }
   render() {
     return (
-      <FlatList
-        data={this.props.items}
-        renderItem={({item}) => (
-          this.renderItemCells(item)
-        )}
-      />
+      <View style={{flex: 1}}>
+        {this.renderItemCells()}
+      </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-
-});

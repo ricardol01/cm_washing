@@ -34,6 +34,7 @@ export default class Home extends Component<Props> {
     this._onChange = this._onChange.bind(this);
     this._addItem = this._addItem.bind(this);
     this._removeItem = this._removeItem.bind(this);
+    this.updateQuantity = this.updateQuantity.bind(this);
 
   }
   componentDidMount() {
@@ -58,17 +59,20 @@ export default class Home extends Component<Props> {
     const state = Object.assign({}, HomeStore.getState());
     this.setState(state);
   }
-  _addItem(item) {
-    // HomeStore.add_item(item);
-    HomeStore.updateCartItem(item.sku_id, 1);
+  _addItem(sku_id) {
+    HomeStore.updateCartItem(sku_id, 1);
 
     const state = Object.assign({}, HomeStore.getState());
     this.setState(state);
   }
-  _removeItem(item) {
-    // HomeStore.remove_item(item);
-    HomeStore.updateCartItem(item.sku_id, -1);
+  _removeItem(sku_id) {
+    HomeStore.updateCartItem(sku_id, -1);
 
+    const state = Object.assign({}, HomeStore.getState());
+    this.setState(state);
+  }
+  updateQuantity(sku_id, delta){
+    HomeStore.updateCartItem(sku_id, delta);
     const state = Object.assign({}, HomeStore.getState());
     this.setState(state);
   }
@@ -87,7 +91,7 @@ export default class Home extends Component<Props> {
     const _display_remove = () => {
       if (HomeStore.getItemAmount(item.sku_id) != 0)
         return (<TouchableOpacity onPress={() => {
-            this._removeItem(item)
+            this._removeItem(item.sku_id)
           }} style={{
             flex: 1
           }}>
@@ -111,7 +115,7 @@ export default class Home extends Component<Props> {
 
         </TouchableOpacity>);
       return (<TouchableOpacity onPress={() => {
-          this._removeItem(item)
+          this._removeItem(item.sku_id)
         }} style={{
           flex: 1
         }}>
@@ -208,7 +212,7 @@ export default class Home extends Component<Props> {
                 </Text>
               </View>
               <TouchableOpacity onPress={() => {
-                  this._addItem(item)
+                  this._addItem(item.sku_id)
                 }} style={{
                   flex: 1
                 }}>
@@ -315,7 +319,7 @@ export default class Home extends Component<Props> {
             }}></Animated.View>
         </ScrollableTabView>
       </View>
-      <Cart ref={ref => this.Cart = ref} currentCart={this.state.cartProducts}/>
+      <Cart ref={ref => this.Cart = ref} currentCart={this.state.cartProducts} onPressedQuantity={this.updateQuantity}/>
     </View>);
   }
 }
