@@ -7,60 +7,65 @@ const CHANGE_EVENT = 'change';
 
 const RestaurantStore = Object.assign({},EventEmitter.prototype,{
   state:{
-    orderList:[],
-    cart_products:[],
+    productList:[],
+    cartProducts:[],
   },
   initState(){
     this.state = {
-      orderList:{
-        ea_products:[],
-        ea_categories:[],
-      },
-      };
+      productList:[],
+      cartProducts:[],
+    };
   },
-  add_item(item)
-  {
-    let find=-1;
-    let cart=this.state.cart_products;
-    for (i=0;i<cart.length;i++)
-    {
-      if (cart[i].sku_id==item.sku_id)
-      {
-        cart[i].amount++;
-        find=i;
+  getProductItem(sku_id) {
+    let products = this.state.productList;
+    for (i = 0; i < products.length; i++) {
+      if (products[i].sku_id == sku_id) {
+        return products[i];
       }
     }
-    if (find==-1) {
-      let new_item={
-        sku_id:item.sku_id,
-        amount:1,
-      }
-      cart.push(new_item);
-    }
-    this.state.cart_products=cart;
+    return null;
   },
-  remove_item(item)
-  {
-    let cart=this.state.cart_products;
-    for (i=0;i<cart.length;i++)
-    {
-      if (cart[i].sku_id==item.sku_id)
-      {
-        cart[i].amount--;
+  updateCartItem(sku_id, delta) {
+    let currentAmount = this.getItemAmount(sku_id);
+    let cart = this.state.cartProducts;
+    let targetProduct = Object.assign({}, this.getProductItem(sku_id));
+    if (!targetProduct) return;
+
+    // If adding it the first time
+    if (currentAmount == 0 && delta == 1){
+      targetProduct.amount = 1
+      cart.push(targetProduct);
+      return;
+    }
+
+    // update new amount
+    let newAmount = currentAmount + delta;
+    if (newAmount < 0){
+      newAmount = 0;
+    }
+
+    for (i = 0; i < cart.length; i++) {
+      if (cart[i].sku_id == sku_id) {
+        cart[i].amount = newAmount;
+        if (newAmount == 0){
+          // If delete it for good
+          cart.splice(i, 1);
+          break;
+        }
       }
     }
-    this.state.cart_products=cart;
+    this.state.cartProducts=cart;
   },
   get_item()
   {
-    return this.state.cart_products;
+    return this.state.cartProducts;
   },
-  get_item_amount(item)
+  getItemAmount(sku_id)
   {
-    let cart=this.state.cart_products;
+    let cart=this.state.cartProducts;
     for (i=0;i<cart.length;i++)
     {
-      if (cart[i].sku_id==item.sku_id)
+      if (cart[i].sku_id == sku_id)
       {
         return cart[i].amount;
       }
@@ -103,14 +108,14 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
   getState(){
     return this.state
   },
-  updateOrderList(data){
-    const orderList=data;
-    this.state = Object.assign(this.state,{orderList});
+  updateProductList(data){
+    const productList = data.ea_products;
+    this.state = Object.assign(this.state,{productList});
   },
 	dispatcherIndex: register(function(action) {
 	   switch(action.actionType){
 				case AppConstants.PRODUCT_LIST:
-								RestaurantStore.updateOrderList(action.data);
+								RestaurantStore.updateProductList(action.data);
 								RestaurantStore.emitChange();
                 break;
         default:
