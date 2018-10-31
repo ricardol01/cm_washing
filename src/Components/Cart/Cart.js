@@ -12,6 +12,9 @@ import BaseDialog from '../Common/BaseDialog';
 import CartItemList from './CartItemList'
 import Common from '../../Constants/Common'
 
+import HomeAction from '../../Actions/HomeAction';
+import HomeStore from '../../Stores/HomeStore';
+
 export default class Cart extends BaseDialog {
 
   static defaultProps = {
@@ -21,44 +24,19 @@ export default class Cart extends BaseDialog {
 
   constructor(props) {
     super(props);
-    const testData = {
-      items: [
-        {
-          name: "加拿大鹅",
-          id: 1,
-          quantity: 1,
-          price: 8.00
-        },
-        {
-          name: "包",
-          id: 2,
-          quantity: 1,
-          price: 8.00
-        },
-        {
-          name: "鞋子",
-          id: 3,
-          quantity: 1,
-          price: 9.00
-        },
-      ],
-      allowedShipping: false,
-      allowedPickup: true,
-      tax: "12.00",
-      subtotal: "24.00",
-    }
-    this.state = testData;
   }
 
   _getContentPosition() {
     return {justifyContent: 'flex-start', alignItems: 'center'}
   }
+
   onPressedQuantity(itemId, dQuantity){
     console.log(itemId, dQuantity);
   }
   clearCart(){
 
   }
+
   onPressedCheckout(){
 
   }
@@ -89,7 +67,7 @@ export default class Cart extends BaseDialog {
   renderCartItems(){
     return (
       <View style={{height: 120, marginTop: 12, marginBottom: 4,}}>
-        <CartItemList items={this.state.items} onPressedQuantity={this.onPressedQuantity} />
+        <CartItemList items={this.props.currentCart} onPressedQuantity={this.onPressedQuantity} />
       </View>
     )
   }
