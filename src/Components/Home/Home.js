@@ -54,13 +54,13 @@ _onChange(){
 _addItem(item)
 {
 
-  HomeStore.add_item(item);
+  HomeStore.addItem(item);
   const state = Object.assign({},HomeStore.getState());
   this.setState(state);
 }
 _removeItem(item)
 {
-  HomeStore.remove_item(item);
+  HomeStore.removeItem(item);
   const state = Object.assign({},HomeStore.getState());
   this.setState(state);
 }
@@ -75,7 +75,7 @@ _removeItem(item)
 
     }
     const _display_remove=()=>{
-      if (HomeStore.get_item_amount(item)!=0) return(
+      if (HomeStore.getItemAmount(item)!=0) return(
         <TouchableOpacity onPress={()=>{this._removeItem(item)}} style={{flex:1,}}>
           <View style={{flex:1,marginBottom:5,backgroundColor:'#2ad3be',borderRadius:40,
            alignItems:'center',justifyContent:'center',}}>
@@ -128,7 +128,7 @@ _removeItem(item)
                 {_display_remove()}
                 <View style={{flex:2, alignItems:'center',justifyContent:'center',}}>
                   <Text style={{color:'#404041',fontSize:16,marginBottom:5,}}>
-                    {HomeStore.get_item_amount(item)}
+                    {HomeStore.getItemAmount(item)}
                   </Text>
                 </View>
                 <TouchableOpacity onPress={()=>{this._addItem(item)}} style={{flex:1,}}>

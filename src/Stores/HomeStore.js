@@ -18,7 +18,7 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
       },
       };
   },
-  add_item(item)
+  addItem(item)
   {
     let find=-1;
     let cart=this.state.cart_products;
@@ -31,15 +31,14 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
       }
     }
     if (find==-1) {
-      let new_item={
-        sku_id:item.sku_id,
-        amount:1,
-      }
+      let new_item=item;
+      item.amount=1;
       cart.push(new_item);
+      console.log(cart);
     }
     this.state.cart_products=cart;
   },
-  remove_item(item)
+  removeItem(item)
   {
     let cart=this.state.cart_products;
     for (i=0;i<cart.length;i++)
@@ -47,15 +46,19 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
       if (cart[i].sku_id==item.sku_id)
       {
         cart[i].amount--;
+        if (cart[i].amount==0)
+        {
+          cart.splice(i,1);
+        }
       }
     }
     this.state.cart_products=cart;
   },
-  get_item()
+  getItem()
   {
     return this.state.cart_products;
   },
-  get_item_amount(item)
+  getItemAmount(item)
   {
     let cart=this.state.cart_products;
     for (i=0;i<cart.length;i++)
