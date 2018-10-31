@@ -108,6 +108,9 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
   getState(){
     return this.state
   },
+  getCartProducts(){
+    return this.state.cartProducts;
+  },
   updateProductList(data){
     const productList = data.ea_products;
     this.state = Object.assign(this.state,{productList});

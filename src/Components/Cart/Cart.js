@@ -29,10 +29,7 @@ export default class Cart extends BaseDialog {
   _getContentPosition() {
     return {justifyContent: 'flex-start', alignItems: 'center'}
   }
-
-  onPressedQuantity(itemId, dQuantity){
-    console.log(itemId, dQuantity);
-  }
+  
   clearCart(){
 
   }
@@ -65,9 +62,10 @@ export default class Cart extends BaseDialog {
     )
   }
   renderCartItems(){
+    const cellHeight = 40;
     return (
-      <View style={{height: 120, marginTop: 12, marginBottom: 4,}}>
-        <CartItemList items={this.props.currentCart} onPressedQuantity={this.onPressedQuantity} />
+      <View style={{height: cellHeight * this.props.currentCart.length, marginTop: 12, marginBottom: 4,}}>
+        <CartItemList items={this.props.currentCart} onPressedQuantity={this.props.onPressedQuantity} />
       </View>
     )
   }
@@ -119,7 +117,6 @@ export default class Cart extends BaseDialog {
   renderContent() {
     const sideMargin = 12;
     return <View style={{
-        height: this.mScreenHeight * 0.4,
         width: this.mScreenWidth - (sideMargin * 2),
         backgroundColor: '#ffffff',
         marginTop: 68,
