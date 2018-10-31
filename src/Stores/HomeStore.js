@@ -56,7 +56,7 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
     }
     this.state.cartProducts=cart;
   },
-  get_item()
+  getItem()
   {
     return this.state.cartProducts;
   },
