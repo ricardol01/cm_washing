@@ -22,7 +22,8 @@ const {height, width} = Dimensions.get('window');
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import HomeAction from '../../Actions/HomeAction';
 import HomeStore from '../../Stores/HomeStore';
-
+import CheckoutAction from '../../Actions/CheckoutAction';
+import CheckoutStore from '../../Stores/CheckoutStore';
 import Cart from '../Cart/Cart'
 
 type Props = {};
@@ -35,7 +36,7 @@ export default class Home extends Component<Props> {
     this._addItem = this._addItem.bind(this);
     this._removeItem = this._removeItem.bind(this);
     this.updateQuantity = this.updateQuantity.bind(this);
-
+    this._goToCheckout=this._goToCheckout.bind(this);
   }
   componentDidMount() {
     HomeStore.addChangeListener(this._onChange);
@@ -55,10 +56,19 @@ export default class Home extends Component<Props> {
   componentWillUnmount() {
     HomeStore.removeChangeListener(this._onChange);
   }
+  _goToCheckout(){
+    this.Cart.dismiss();
+    console.log('Gooooooooooo');
+    this.props.navigator.push({
+      screen: 'checkout',
+      title: '结算'
+    });
+  }
   _onChange() {
     const state = Object.assign({}, HomeStore.getState());
     this.setState(state);
   }
+
   _addItem(sku_id) {
     HomeStore.updateCartItem(sku_id, 1);
 
@@ -156,7 +166,7 @@ export default class Home extends Component<Props> {
             flex: 2
           }}>
           <Image source={{
-              uri: item.url
+              uri: item.image
             }} style={{
               flex: 1
             }}/>
@@ -319,7 +329,7 @@ export default class Home extends Component<Props> {
             }}></Animated.View>
         </ScrollableTabView>
       </View>
-      <Cart ref={ref => this.Cart = ref} currentCart={this.state.cartProducts} onPressedQuantity={this.updateQuantity}/>
+      <Cart ref={ref => this.Cart = ref} goToCheckout={this._goToCheckout} currentCart={this.state.cartProducts} onPressedQuantity={this.updateQuantity}/>
     </View>);
   }
 }

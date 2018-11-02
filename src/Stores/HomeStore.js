@@ -1,11 +1,10 @@
 import AppConstants from '../Constants/AppConstants';
 import {dispatch, register} from '../Dispatchers/AppDispatcher';
 import {EventEmitter} from 'events';
-import OrderAction from '../Actions/OrderAction';
 const CHANGE_EVENT = 'change';
 
 
-const RestaurantStore = Object.assign({},EventEmitter.prototype,{
+const HomeStore = Object.assign({},EventEmitter.prototype,{
   state:{
     productList:[],
     cartProducts:[],
@@ -118,8 +117,8 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
 	dispatcherIndex: register(function(action) {
 	   switch(action.actionType){
 				case AppConstants.PRODUCT_LIST:
-								RestaurantStore.updateProductList(action.data);
-								RestaurantStore.emitChange();
+								HomeStore.updateProductList(action.data);
+								HomeStore.emitChange();
                 break;
         default:
                 break;
@@ -129,4 +128,4 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
 	})
 
 });
-module.exports = RestaurantStore;
+module.exports = HomeStore;

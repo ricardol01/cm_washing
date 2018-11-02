@@ -38,7 +38,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList data={['delivery', 'userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
+        <FlatList data={['userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
       </View>
 
     )

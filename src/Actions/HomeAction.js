@@ -16,4 +16,5 @@ export default {
         throw 'no cardToken'
       }
     },
+
 }

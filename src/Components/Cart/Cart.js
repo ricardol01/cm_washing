@@ -13,7 +13,9 @@ import CartItemList from './CartItemList'
 import Common from '../../Constants/Common'
 
 import HomeAction from '../../Actions/HomeAction';
+import CheckoutAction from '../../Actions/CheckoutAction';
 import HomeStore from '../../Stores/HomeStore';
+import CheckoutStore from '../../Stores/CheckoutStore';
 
 export default class Cart extends BaseDialog {
 
@@ -24,12 +26,38 @@ export default class Cart extends BaseDialog {
 
   constructor(props) {
     super(props);
+    this._goToCheckout=this._goToCheckout.bind(this);
+    this._onChange=this._onChange.bind(this);
+  }
+  componentDidMount() {
+    CheckoutStore.addChangeListener(this._onChange);
+    // setTimeout(() => {
+    //   this.props.navigator.showModal({
+    //      screen: "CmWashingHomeAlert",
+    //      passProps: {
+    //        message:"1111111"
+    //      },
+    //      animated: false,
+    //      navigatorStyle: {navBarHidden: true},
+    //     });
+    // }, 6000);
+
+  }
+  componentWillUnmount() {
+    CheckoutStore.removeChangeListener(this._onChange);
+  }
+  _onChange() {
+    const state = CheckoutStore.getState();
+    if (state.goCheckout==1)
+    {
+      this.props.goToCheckout();
+    }
   }
 
   _getContentPosition() {
     return {justifyContent: 'flex-start', alignItems: 'center'}
   }
-  
+
   clearCart(){
 
   }
@@ -44,7 +72,6 @@ export default class Cart extends BaseDialog {
         {this.renderCartItems()}
         <View style={{ borderBottomColor: '#999999', borderBottomWidth: 0.8, }} />
         {this.renderCartFooter()}
-        {this.renderCheckoutButton()}
       </View>
     )
   }
@@ -105,13 +132,34 @@ export default class Cart extends BaseDialog {
       </View>
     )
   }
+  _goToCheckout()
+  {
+    let iv_products=[];
+    let products=HomeStore.getItem();
+    for (i=0;i<products.length;i++)
+    {
+      let currentProd={
+        sku_id:products[i].sku_id,
+        amount:products[i].amount,
+      }
+      iv_products.push(currentProd);
+    }
+    let lo_data={
+      token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1NDA3ODU5NDUsImV4cCI6MTU3MjMyMTk0NSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsInVpZCI6IjEifQ.RIk_KgD_Oq31NkB6FSL0_PsRhmRWA3DwOLz2Fj4bjhI',
+      products:iv_products,
+    }
+    CheckoutAction.beforeOrder(lo_data);
+
+
+  }
   renderCheckoutButton() {
     return (
-      <View style={styles.checkoutButton}>
-        <TouchableOpacity onPress={this.onPressedCheckout}>
+      <TouchableOpacity onPress={this._goToCheckout} style={styles.checkoutButton}>
+        <View style={{flex:1,justifyContent: 'center',
+            alignItems: 'center',}} onPress={this.onPressedCheckout}>
           <Text style={{color: 'white', fontSize: 16, fontWeight: '700',}}>结算</Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
     )
   }
   renderContent() {
@@ -122,6 +170,7 @@ export default class Cart extends BaseDialog {
         marginTop: 68,
       }}>
       { this.renderCart() }
+      {this.renderCheckoutButton()}
     </View>
   }
 }
@@ -178,8 +227,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Common.MAIN_COLOR,
     height: 42,
-    marginLeft: -12,
-    marginRight: -12,
+    marginLeft: 0,
+    marginRight: 0,
     marginTop: 22,
   }
 });

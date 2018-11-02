@@ -18,7 +18,7 @@ import Checkout from './src/Components/Checkout/Checkout';
 
 
 import CmWashingHomeAlert from './src/Components/HomeAlert/CmWashingHomeAlert';
-
+Navigation.registerComponent('checkout', () => Checkout);
 Navigation.registerComponent('home', () => Home);
 Navigation.registerComponent('orders', () => Orders);
 Navigation.registerComponent('settings', () => Settings);
