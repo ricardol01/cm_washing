@@ -14,7 +14,7 @@ import BaseDialog from '../BaseDialog';
 
 import PickerView from './PickerView';
 
-export default class CustomPicker extends BaseDialog {
+export default class Picker extends BaseDialog {
 
   static defaultProps = {
     removeSubviews: false,
@@ -55,11 +55,37 @@ export default class CustomPicker extends BaseDialog {
         linked: true,
       }
     }
+
   }
 
   _getContentPosition() {
     return {justifyContent: 'flex-end', alignItems: 'center'}
   }
+
+  forceReloadDataSource() {
+    if (!this.props.linked){
+      this.setState({
+        selectedValue: this.props.items[0],
+        linked: false,
+      })
+    }
+    else{
+      // This this linked datasource
+      let primaryOptions = [];
+      let secondaryOptions = this.props.items[0][this.props.secondaryKey];
+      for (i of this.props.items){
+        primaryOptions.push(i[this.props.primaryKey])
+      }
+      this.setState({
+        displayedPrimaryOptions: primaryOptions,
+        displayedSecondaryOptions: secondaryOptions,
+        selectedPrimaryOptions: primaryOptions[0],
+        selectedSecondaryOptions: secondaryOptions[0],
+        linked: true,
+      })
+    }
+  }
+
   updateSecondaryOptions(newValue){
     for (i of this.props.items){
       if (i[this.props.primaryKey] == newValue){

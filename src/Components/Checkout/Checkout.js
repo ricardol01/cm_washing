@@ -22,14 +22,13 @@ export default class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = CheckoutStore.getState();
-    this.renderItemCells=this.renderItemCells.bind(this);
-    this._onChange=this._onChange.bind(this);
+    this.renderItemCells = this.renderItemCells.bind(this);
+    this._onChange = this._onChange.bind(this);
 
-    this.onPressedPickupTime=this.onPressedPickupTime.bind(this);
-    this.onPressedDeliveryTime=this.onPressedDeliveryTime.bind(this);
-    this.onConfirmPickupTime=this.onConfirmPickupTime.bind(this);
-
-    this.onConfirmDeliveryTime=this.onConfirmDeliveryTime.bind(this);
+    this.onPressedPickupTime = this.onPressedPickupTime.bind(this);
+    this.onPressedDeliveryTime = this.onPressedDeliveryTime.bind(this);
+    this.onConfirmPickupTime = this.onConfirmPickupTime.bind(this);
+    this.onConfirmDeliveryTime = this.onConfirmDeliveryTime.bind(this);
   }
   componentDidMount() {
     CheckoutStore.addChangeListener(this._onChange);
@@ -38,9 +37,6 @@ export default class Checkout extends Component {
   _onChange() {
     const state = Object.assign({}, CheckoutStore.getState());
     this.setState(state);
-    console.log('555', this.state.ea_pickup_time);
-
-    console.log(this.state);
   }
   componentWillUnmount() {
     CheckoutStore.removeChangeListener(this._onChange);
@@ -52,8 +48,14 @@ export default class Checkout extends Component {
     this.PickerDelivery.show();
   }
   onConfirmPickupTime(pickedData){
-    // console.log(pickedData);
-    CheckoutAction.getDeliveryTime(pickedData.selectedPrimaryOptions,pickedData.selectedSecondaryOptions,this.state.ev_wash_time);
+    CheckoutAction.getDeliveryTime(
+      pickedData.selectedPrimaryOptions,
+      pickedData.selectedSecondaryOptions,
+      this.state.ev_wash_time
+    );
+
+    // this.PickerDelivery.show();
+    this.PickerDelivery.forceReloadDataSource();
   }
   onConfirmDeliveryTime(deliveryData){
     console.log(deliveryData);
