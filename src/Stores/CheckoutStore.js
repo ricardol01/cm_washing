@@ -31,9 +31,8 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
       ev_can_deliver:-1,
       ea_pickup_time:[],
       ev_wash_time:-1,
-          eo_last4:{},
-
-          delivery_time:[],
+      eo_last4:{},
+      delivery_time:[],
     };
   },
 
