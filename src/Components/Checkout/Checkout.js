@@ -75,14 +75,18 @@ export default class Checkout extends Component {
     return (
       <View style={styles.container}>
         <FlatList data={['delivery', 'userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
-        <DateTimePicker
-          ref={ref => this.Picker = ref}
-          items={this.state.ea_pickup_time}
-          linked={true}
-          primaryKey={"date"}
-          secondaryKey={"available_time"}
-          onPickerConfirm={this.onConfirmPickupTime}
-        />
+        {
+          this.state.ea_pickup_time.length != 0 &&
+          <DateTimePicker
+            ref={ref => this.Picker = ref}
+            items={this.state.ea_pickup_time}
+            linked={true}
+            primaryKey={"date"}
+            secondaryKey={"available_time"}
+            onPickerConfirm={this.onConfirmPickupTime}
+          />
+        }
+
       </View>
 
     )
