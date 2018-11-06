@@ -5,9 +5,10 @@ import {
   Text,
   View,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Dimensions
 } from 'react-native';
-
+const {height, width} = Dimensions.get('window');
 import CheckoutDelivery from './Subview/CheckoutDelivery.js'
 import CheckoutUserInfo from './Subview/CheckoutUserInfo.js'
 import CheckoutPayment from './Subview/CheckoutPayment.js'
@@ -64,12 +65,16 @@ export default class Checkout extends Component {
   renderItemCells(item) {
     switch (item) {
       case "delivery":
+        // console.log(this.state);
         return (
           <CheckoutDelivery
           cardStyle={styles.card}
           onPressedPickupTime={this.onPressedPickupTime}
           onPressedDeliverTime={this.onPressedDeliveryTime}
           selectedPickUpDate={this.state.selectedPickUpDate}
+          selectedPickUpTime={this.state.selectedPickUpTime}
+          selectedDeliveryDate={this.state.selectedDeliveryDate}
+          selectDeliveryTime={this.state.selectDeliveryTime}
           />
         )
         break;
@@ -88,7 +93,12 @@ export default class Checkout extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={{height:0.7*height,width:width,}}>
         <FlatList data={['delivery', 'userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
+
+        </View>
+        <View style={{width:width,height:0.1*height,position:'absolute',bottom:0,backgroundColor:'green'}}>
+        </View>
         {
           this.state.ea_pickup_time.length != 0 &&
           <DateTimePicker
