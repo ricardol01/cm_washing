@@ -157,7 +157,6 @@ export default class Home extends Component<Props> {
     for (i of this.state.cartProducts){
       itemCount += i.amount;
     }
-    console.log(itemCount);
     return(
       <View style={{flexDirection: 'row', flex: 1}}>
         <View style={{flex: 1}}></View>
