@@ -53,4 +53,22 @@ export default  {
       throw e
     }
   },
+  async getDeliveryTime(io_data){
+    try {
+
+      const lo_data = {
+        date:io_data.date,
+        wash_time:io_data.wash_time,
+      }
+      // console.log(lo_data);
+      const res = await CheckoutAPI.getDeliveryTime(lo_data);
+      console.log(res);
+      const eo_data = {
+        delivery_time:res.ea_delivery_time,
+      }
+      return eo_data
+    } catch (e) {
+      throw e
+    }
+  },
 }

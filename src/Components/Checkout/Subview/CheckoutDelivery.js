@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 50,
+    height: 4,
+    opacity:0,
   },
   select: {
     width: 20,

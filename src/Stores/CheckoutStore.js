@@ -16,7 +16,8 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
     ev_can_deliver:-1,
     ea_pickup_time:[],
     ev_wash_time:-1,
-    eo_last4:{}
+    eo_last4:{},
+    delivery_time:[],
   },
   initState(){
     this.state = {
@@ -30,7 +31,9 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
       ev_can_deliver:-1,
       ea_pickup_time:[],
       ev_wash_time:-1,
-          eo_last4:{}
+          eo_last4:{},
+
+          delivery_time:[],
     };
   },
 
@@ -56,6 +59,11 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
     this.state = Object.assign({},this.state,data);
 
   },
+  updateDeliveryTime(data){
+    // console.log(data);
+    this.state = Object.assign({},this.state,data);
+    console.log(this.state);
+  },
   updateCard(data)
   {
     this.state = Object.assign({},this.state,data);
@@ -71,6 +79,11 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
                 console.log(action.data);
         				CheckoutStore.updateCard(action.data);
         				CheckoutStore.emitChange();
+                break;
+        case AppConstants.DELIVERY_TIME:
+                console.log(action.data);
+                CheckoutStore.updateDeliveryTime(action.data);
+                CheckoutStore.emitChange();
                 break;
         default:
                 break;

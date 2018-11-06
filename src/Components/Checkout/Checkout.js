@@ -26,7 +26,10 @@ export default class Checkout extends Component {
     this._onChange=this._onChange.bind(this);
 
     this.onPressedPickupTime=this.onPressedPickupTime.bind(this);
-    this.onPressedDeliverTime=this.onPressedDeliverTime.bind(this);
+    this.onPressedDeliveryTime=this.onPressedDeliveryTime.bind(this);
+    this.onConfirmPickupTime=this.onConfirmPickupTime.bind(this);
+
+    this.onConfirmDeliveryTime=this.onConfirmDeliveryTime.bind(this);
   }
   componentDidMount() {
     CheckoutStore.addChangeListener(this._onChange);
@@ -36,6 +39,8 @@ export default class Checkout extends Component {
     const state = Object.assign({}, CheckoutStore.getState());
     this.setState(state);
     console.log('555', this.state.ea_pickup_time);
+
+    console.log(this.state);
   }
   componentWillUnmount() {
     CheckoutStore.removeChangeListener(this._onChange);
@@ -43,11 +48,15 @@ export default class Checkout extends Component {
   onPressedPickupTime(){
     this.Picker.show();
   }
-  onConfirmPickupTime(pickedData){
-    console.log(pickedData);
+  onPressedDeliveryTime(){
+    this.PickerDelivery.show();
   }
-  onPressedDeliverTime(){
-
+  onConfirmPickupTime(pickedData){
+    // console.log(pickedData);
+    CheckoutAction.getDeliveryTime(pickedData.selectedPrimaryOptions,pickedData.selectedSecondaryOptions,this.state.ev_wash_time);
+  }
+  onConfirmDeliveryTime(deliveryData){
+    console.log(deliveryData);
   }
   renderItemCells(item) {
     switch (item) {
@@ -55,7 +64,7 @@ export default class Checkout extends Component {
         return (<CheckoutDelivery
           cardStyle={styles.card}
           onPressedPickupTime={this.onPressedPickupTime}
-          onPressedDeliverTime={this.onPressedDeliverTime}
+          onPressedDeliverTime={this.onPressedDeliveryTime}
           />
       )
         break;
@@ -84,6 +93,17 @@ export default class Checkout extends Component {
             primaryKey={"date"}
             secondaryKey={"available_time"}
             onPickerConfirm={this.onConfirmPickupTime}
+          />
+        }
+        {
+          this.state.delivery_time.length != 0 &&
+          <DateTimePicker
+            ref={ref => this.PickerDelivery = ref}
+            items={this.state.delivery_time}
+            linked={true}
+            primaryKey={"date"}
+            secondaryKey={"available_time"}
+            onPickerConfirm={this.onConfirmDeliveryTime}
           />
         }
 

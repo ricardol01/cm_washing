@@ -33,4 +33,22 @@ export default {
         throw error;
       }
     },
+    async getDeliveryTime(date,time,wash_time) {
+      try{
+        const io_data={
+          date:date,
+          wash_time:wash_time,
+        }
+        const data = await CheckoutModule.getDeliveryTime(io_data);
+        data.selectedPickUpDate=date;
+        data.selectedPickUpTime=time;
+        // console.log(data);
+        dispatch({
+             actionType: AppConstants.DELIVERY_TIME,data
+         })
+      }catch(error){
+        console.log(error)
+        throw error;
+      }
+    },
 }
