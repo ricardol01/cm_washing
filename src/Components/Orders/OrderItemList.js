@@ -45,8 +45,8 @@ export default class OrderItemList extends Component{
         <View style={{flex: 8,justifyContent: 'center', marginLeft: -4}}>
           <Text style={[styles.text, {marginLeft: 20,}]}>item1</Text>
         </View>
-        <View style={{flex: 2,justifyContent: 'center',}}>
-          <Text style={[styles.text, {marginLeft: 10,}]}>$ {item.price}</Text>
+        <View style={{flex: 3,justifyContent: 'center',}}>
+          <Text style={[styles.text, {marginLeft: 10, textAlign: 'right'}]}>$ {item.price}</Text>
         </View>
       </View>
     )
@@ -61,7 +61,7 @@ export default class OrderItemList extends Component{
   }
 
   render() {
-    const listHeight = 30 * this.state.items.length;
+    const listHeight = 30 * this.props.item.length;
     return (
       <View style={{height: listHeight}}>
         {this.renderItemList()}
@@ -72,7 +72,7 @@ export default class OrderItemList extends Component{
 
 const styles = StyleSheet.create({
   text: {
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 13,
   },
   quantityText: {

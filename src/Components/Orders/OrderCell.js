@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   deliverTimeText: {
     fontSize: 12,
-    fontWeight: '800',
+    fontWeight: '700',
     marginBottom: 4,
   },
   order: {

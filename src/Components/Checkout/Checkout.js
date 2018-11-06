@@ -35,7 +35,6 @@ export default class Checkout extends Component {
   _onChange() {
     const state = Object.assign({}, CheckoutStore.getState());
     this.setState(state);
-    console.log('555', this.state.ea_pickup_time);
   }
   componentWillUnmount() {
     CheckoutStore.removeChangeListener(this._onChange);
@@ -52,12 +51,13 @@ export default class Checkout extends Component {
   renderItemCells(item) {
     switch (item) {
       case "delivery":
-        return (<CheckoutDelivery
+        return (
+          <CheckoutDelivery
           cardStyle={styles.card}
           onPressedPickupTime={this.onPressedPickupTime}
           onPressedDeliverTime={this.onPressedDeliverTime}
           />
-      )
+        )
         break;
       case "userInfo":
         return (<CheckoutUserInfo userInfo={this.state.eo_user_info} cardStyle={styles.card}/>)
@@ -86,9 +86,7 @@ export default class Checkout extends Component {
             onPickerConfirm={this.onConfirmPickupTime}
           />
         }
-
       </View>
-
     )
   }
 }
