@@ -60,6 +60,9 @@ export default class Checkout extends Component {
   onConfirmDeliveryTime(deliveryData){
     console.log(deliveryData);
   }
+  onChangeComment(comment){
+    console.log(comment);
+  }
   renderItemCells(item) {
     switch (item) {
       case "delivery":
@@ -78,7 +81,16 @@ export default class Checkout extends Component {
         return (<CheckoutPayment cardInfo={this.state.eo_last4} cardStyle={styles.card}/>)
         break;
       case "orderInfo":
-        return (<CheckoutOrderInfo productList={this.state.ea_products} delifee={this.state.ev_delifee} tax={this.state.ev_tax_w_deli} total={this.state.ev_total_w_deli} cardStyle={styles.card}/>)
+        return (
+          <CheckoutOrderInfo
+            productList={this.state.ea_products}
+            delifee={this.state.ev_delifee}
+            tax={this.state.ev_tax_w_deli}
+            total={this.state.ev_total_w_deli}
+            cardStyle={styles.card}
+            onChangeComment={this.onChangeComment}
+          />
+        )
         break;
       default:
     }
@@ -86,9 +98,11 @@ export default class Checkout extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList data={['delivery', 'userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
-        {
-          this.state.ea_pickup_time.length != 0 &&
+        <FlatList
+          data={['delivery', 'userInfo', 'payment', 'orderInfo']}
+          renderItem={({item}) => (this.renderItemCells(item))}/>
+        
+        { this.state.ea_pickup_time.length != 0 &&
           <DateTimePicker
             ref={ref => this.Picker = ref}
             items={this.state.ea_pickup_time}
@@ -96,10 +110,9 @@ export default class Checkout extends Component {
             primaryKey={"date"}
             secondaryKey={"available_time"}
             onPickerConfirm={this.onConfirmPickupTime}
-          />
-        }
-        {
-          this.state.delivery_time.length != 0 &&
+          /> }
+
+        { this.state.delivery_time.length != 0 &&
           <DateTimePicker
             ref={ref => this.PickerDelivery = ref}
             items={this.state.delivery_time}
@@ -107,8 +120,7 @@ export default class Checkout extends Component {
             primaryKey={"date"}
             secondaryKey={"available_time"}
             onPickerConfirm={this.onConfirmDeliveryTime}
-          />
-        }
+          /> }
 
       </View>
     )

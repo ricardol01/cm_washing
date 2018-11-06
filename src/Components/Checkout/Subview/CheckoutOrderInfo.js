@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  TextInput,
 } from 'react-native';
 
 import Common from '../../../Constants/Common'
@@ -39,7 +40,7 @@ export default class CheckoutUserInfo extends Component{
   renderOrderComment(){
     return (
       <View style={{borderRadius: 4, backgroundColor: '#F0F0F0', marginTop: 6, }}>
-        <Text style={styles.orderCommentText}>我是备注</Text>
+        <TextInput placeholder={'添加备注'} style={styles.orderCommentText} onChangeText={(text) => this.props.onChangeComment(text)}></TextInput>
       </View>
     )
   }
