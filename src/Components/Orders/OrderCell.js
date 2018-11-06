@@ -24,7 +24,8 @@ export default class OrderCell extends Component{
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <Text style={styles.headerText}>No.{this.props.orderInfo.oid}</Text>
-          <Text style={styles.headerText}>{date.toString()}</Text>
+          <Text style={styles.headerText}>{date.getFullYear() + '-' + (date.getMonth()+1) + "-" + date.getDate() + "  " +  
+date.getHours() + ":" + date.getMinutes()}</Text>
         </View>
       </View>
     )

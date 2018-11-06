@@ -26,6 +26,7 @@ export default class Cart extends BaseDialog {
   constructor(props) {
     super(props);
     this._goToCheckout=this._goToCheckout.bind(this);
+    this.clearCart=this.clearCart.bind(this);
   }
 
   _getContentPosition() {
@@ -34,12 +35,16 @@ export default class Cart extends BaseDialog {
 
   clearCart(){
 
+    this.dismiss();
   }
 
   onPressedCheckout(){
 
   }
 
+  shouldAllowedCheckout(){
+    return this.getCartTotal() >= 30;
+  }
   getCartTotal(){
     let total = 0;
     for (i of this.props.currentCart){
@@ -121,6 +126,10 @@ export default class Cart extends BaseDialog {
   }
   _goToCheckout()
   {
+    if (!this.shouldAllowedCheckout()){
+      return;
+    }
+
     let iv_products=[];
     let products=HomeStore.getItem();
     for (i=0;i<products.length;i++)
@@ -141,7 +150,9 @@ export default class Cart extends BaseDialog {
 
   renderCheckoutButton() {
     return (
-      <TouchableOpacity onPress={this._goToCheckout} style={styles.checkoutButton}>
+      <TouchableOpacity
+        onPress={this._goToCheckout}
+        style={[styles.checkoutButton, !this.shouldAllowedCheckout() ? {backgroundColor: '#999999'}: {}]}>
         <View style={{flex:1,justifyContent: 'center',
             alignItems: 'center',}} onPress={this.onPressedCheckout}>
           <Text style={{color: 'white', fontSize: 15, fontWeight: '700',}}>结算</Text>
