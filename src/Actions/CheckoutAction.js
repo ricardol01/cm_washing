@@ -51,4 +51,16 @@ export default {
         throw error;
       }
     },
+    async placeOrder(io_data) {
+      try{
+        const data = await CheckoutModule.placeOrder(io_data);
+        // console.log(data);
+        dispatch({
+             actionType: AppConstants.PLACE_INFO,data
+         })
+      }catch(error){
+        console.log(error)
+        throw error;
+      }
+    },
 }

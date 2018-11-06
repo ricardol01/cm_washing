@@ -71,4 +71,28 @@ export default  {
       throw e
     }
   },
+  async placeOrder(io_data){
+    try {
+
+      const lo_data = {
+        'iv_method':0,
+        'iv_location_id':io_data.location_id,
+        'iv_pickup_date':io_data.pickup_date,
+        'iv_pickup_time':io_data.pickup_time,
+        'iv_delivery_date':io_data.delivery_date,
+        'iv_delivery_time':io_data.delivery_time,
+        'iv_comment':io_data.comment,
+        'iv_products':io_data.products,
+      }
+      // console.log(lo_data);
+      const res = await CheckoutAPI.placeOrder(lo_data);
+      console.log(res);
+      const eo_data = {
+        placeOrderInfo:res.ev_error,
+      }
+      return eo_data
+    } catch (e) {
+      throw e
+    }
+  },
 }
