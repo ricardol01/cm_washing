@@ -37,6 +37,9 @@ export default class Checkout extends Component {
   _onChange() {
     const state = Object.assign({}, CheckoutStore.getState());
     this.setState(state);
+
+    // 同步delivery picker的data source
+    this.PickerDelivery.forceReloadDataSource();
   }
   componentWillUnmount() {
     CheckoutStore.removeChangeListener(this._onChange);
@@ -53,9 +56,6 @@ export default class Checkout extends Component {
       pickedData.selectedSecondaryOptions,
       this.state.ev_wash_time
     );
-
-    // this.PickerDelivery.show();
-    this.PickerDelivery.forceReloadDataSource();
   }
   onConfirmDeliveryTime(deliveryData){
     console.log(deliveryData);
