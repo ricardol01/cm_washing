@@ -14,7 +14,55 @@ export default class CheckoutUserInfo extends Component{
   constructor(props) {
     super(props);
   }
-
+  renderDeliveryContent(){
+    // Only enable shipping for now
+    const shippingType = 0;
+    let content;
+    switch (shippingType) {
+      case 0:
+        {
+          content = (
+            <View style={this.props.cardStyle}>
+              <View style={[styles.content, {flexDirection: 'row', justifyContent: 'space-around'}]}>
+                <TouchableOpacity style={{marginLeft: -20}} onPress={this.props.onPressedPickupTime}>
+                  <Text style={{fontWeight: '800', color: Common.MAIN_COLOR, marginBottom: 10, fontSize: 14,}}>取件</Text>
+                  <View style={{flexDirection: 'column', justifyContent:'space-between', marginBottom: 10,}}>
+                    <Text style={{fontWeight: '700', fontSize: 15, marginBottom: 6}}>13:30-14:30</Text>
+                    <Text style={{fontWeight: '600', fontSize: 12,}}>2018-10-12</Text>
+                  </View>
+                </TouchableOpacity>
+                <View style={{height: 60, width: 1, backgroundColor: '#999999', opacity: 0.4}}></View>
+                <TouchableOpacity onPress={this.props.onPressedDeliverTime}>
+                  <Text style={{fontWeight: '800', color: Common.MAIN_COLOR, marginBottom: 10, fontSize: 14,}}>送达</Text>
+                  <View style={{flexDirection: 'column', justifyContent:'space-between', marginBottom: 10,}}>
+                    <Text style={{fontWeight: '700', fontSize: 15, marginBottom: 6}}>13:30-14:30</Text>
+                    <Text style={{fontWeight: '600', fontSize: 12,}}>2018-10-12</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )
+        }
+        break;
+      case 1:
+        {
+          content = (
+            <View style={this.props.cardStyle}>
+              <View style={styles.content}>
+                <Text style={{fontWeight: '800', color: Common.MAIN_COLOR, marginBottom: 10, fontSize: 14,}}>自取地址</Text>
+                <View style={{flexDirection: 'row', justifyContent:'space-between', marginBottom: 10,}}>
+                  <Text style={{fontWeight: '600', fontSize: 13,}}>North York</Text>
+                  <Text>></Text>
+                </View>
+              </View>
+            </View>
+          )
+        }
+        break;
+      default:
+    }
+    return content;
+  }
   render() {
     return (
       <View>
@@ -28,15 +76,7 @@ export default class CheckoutUserInfo extends Component{
             <Text style={{fontWeight: '700', fontSize: 13,}}>自送自取</Text>
           </TouchableOpacity>
         </View>
-        <View style={this.props.cardStyle}>
-          <View style={styles.content}>
-            <Text style={{fontWeight: '800', color: Common.MAIN_COLOR, marginBottom: 10, fontSize: 14,}}>自取地址</Text>
-            <View style={{flexDirection: 'row', justifyContent:'space-between', marginBottom: 10,}}>
-              <Text style={{fontWeight: '600', fontSize: 13,}}>North York</Text>
-              <Text>></Text>
-            </View>
-          </View>
-        </View>
+        {this.renderDeliveryContent()}
       </View>
 
     )

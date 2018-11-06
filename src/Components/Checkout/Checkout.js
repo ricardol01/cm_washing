@@ -12,41 +12,52 @@ import CheckoutDelivery from './Subview/CheckoutDelivery.js'
 import CheckoutUserInfo from './Subview/CheckoutUserInfo.js'
 import CheckoutPayment from './Subview/CheckoutPayment.js'
 import CheckoutOrderInfo from './Subview/CheckoutOrderInfo.js'
+
 import CheckoutAction from '../../Actions/CheckoutAction';
 import CheckoutStore from '../../Stores/CheckoutStore';
+
+import DateTimePicker from '../Common/Picker/Picker'
+
 export default class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = CheckoutStore.getState();
     this.renderItemCells=this.renderItemCells.bind(this);
     this._onChange=this._onChange.bind(this);
-    console.log(this.state);
+
+    this.onPressedPickupTime=this.onPressedPickupTime.bind(this);
+    this.onPressedDeliverTime=this.onPressedDeliverTime.bind(this);
   }
   componentDidMount() {
     CheckoutStore.addChangeListener(this._onChange);
-    // setTimeout(() => {
-    //   this.props.navigator.showModal({
-    //      screen: "CmWashingHomeAlert",
-    //      passProps: {
-    //        message:"1111111"
-    //      },
-    //      animated: false,
-    //      navigatorStyle: {navBarHidden: true},
-    //     });
-    // }, 6000);
     CheckoutAction.getCard()
   }
   _onChange() {
     const state = Object.assign({}, CheckoutStore.getState());
     this.setState(state);
+    console.log('555', this.state.ea_pickup_time);
   }
   componentWillUnmount() {
     CheckoutStore.removeChangeListener(this._onChange);
   }
+  onPressedPickupTime(){
+    this.Picker.show();
+  }
+  onConfirmPickupTime(pickedData){
+    console.log(pickedData);
+  }
+  onPressedDeliverTime(){
+
+  }
   renderItemCells(item) {
     switch (item) {
       case "delivery":
-        return (<CheckoutDelivery  cardStyle={styles.card}/>)
+        return (<CheckoutDelivery
+          cardStyle={styles.card}
+          onPressedPickupTime={this.onPressedPickupTime}
+          onPressedDeliverTime={this.onPressedDeliverTime}
+          />
+      )
         break;
       case "userInfo":
         return (<CheckoutUserInfo userInfo={this.state.eo_user_info} cardStyle={styles.card}/>)
@@ -63,7 +74,15 @@ export default class Checkout extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList data={['userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
+        <FlatList data={['delivery', 'userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
+        <DateTimePicker
+          ref={ref => this.Picker = ref}
+          items={this.state.ea_pickup_time}
+          linked={true}
+          primaryKey={"date"}
+          secondaryKey={"available_time"}
+          onPickerConfirm={this.onConfirmPickupTime}
+        />
       </View>
 
     )

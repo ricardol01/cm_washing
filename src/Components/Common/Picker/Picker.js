@@ -34,15 +34,71 @@ export default class CustomPicker extends BaseDialog {
   constructor(props) {
     super(props);
     // init picker selected
-    this.state = {selectedValue: this.props.items[0]}
+    if (!this.props.linked){
+      this.state = {
+        selectedValue: this.props.items[0],
+        linked: false,
+      }
+    }
+    else{
+      // This this linked datasource
+      let primaryOptions = [];
+      let secondaryOptions = this.props.items[0][this.props.secondaryKey];
+      for (i of this.props.items){
+        primaryOptions.push(i[this.props.primaryKey])
+      }
+      this.state = {
+        displayedPrimaryOptions: primaryOptions,
+        displayedSecondaryOptions: secondaryOptions,
+        selectedPrimaryOptions: primaryOptions[0],
+        selectedSecondaryOptions: secondaryOptions[0],
+        linked: true,
+      }
+    }
   }
 
   _getContentPosition() {
     return {justifyContent: 'flex-end', alignItems: 'center'}
   }
+  updateSecondaryOptions(newValue){
+    for (i of this.props.items){
+      if (i[this.props.primaryKey] == newValue){
+        this.setState({
+          displayedSecondaryOptions: i[this.props.secondaryKey],
+          selectedPrimaryOptions: newValue,
+        })
+        return;
+      }
+    }
+  }
+
+  renderLinkedPicker() {
+      return <View style={{ width: this.mScreenWidth, flexDirection: 'row' }}>
+          <PickerView
+              list={this.state.displayedPrimaryOptions}
+              onPickerSelected={(toValue) => {
+                  this.updateSecondaryOptions(toValue);
+              }}
+              selectedIndex={0}
+              fontSize={this.getSize(14)}
+              itemWidth={this.mScreenWidth / 2}
+              itemHeight={this.getSize(40)} />
+          <PickerView
+              list={this.state.displayedSecondaryOptions}
+              onPickerSelected={(toValue) => {
+                  this.setState({
+                    selectedSecondaryOptions: toValue,
+                  })
+              }}
+              selectedIndex={0}
+              fontSize={this.getSize(14)}
+              itemWidth={this.mScreenWidth / 2}
+              itemHeight={this.getSize(40)} />
+      </View>
+  }
 
   renderPicker(items) {
-    if (typeof items[0] === 'object'){
+    if (this.props.linked = true){
       return this.renderLinkedPicker();
     }
     return (
@@ -100,7 +156,7 @@ export default class CustomPicker extends BaseDialog {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
             this.dismiss(() => {
-              this.props.onPickerConfirm && this.props.onPickerConfirm(this.state.selectedValue);
+              this.props.onPickerConfirm && this.props.onPickerConfirm(this.state);
             });
           }} style={{
             width: this.getSize(60),
