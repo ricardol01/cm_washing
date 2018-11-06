@@ -63,4 +63,19 @@ export default {
         throw error;
       }
     },
+    selectDeliveryTime(date,time) {
+      try{
+        const io_data={
+          selectedDeliveryDate:date,
+          selectedDeliveryTime:time,
+        }
+        console.log(io_data);
+        dispatch({
+             actionType: AppConstants.SELECTED_DELIVERY_TIME,io_data
+         })
+      }catch(error){
+        console.log(error)
+        throw error;
+      }
+    },
 }

@@ -18,6 +18,10 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
     ev_wash_time:-1,
     eo_last4:{},
     delivery_time:[],
+    selectedPickUpDate:'',
+    selectedPickUpTime:'',
+    selectedDeliveryDate:'',
+    selectedDeliveryTime:'',
   },
   initState(){
     this.state = {
@@ -33,6 +37,10 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
       ev_wash_time:-1,
       eo_last4:{},
       delivery_time:[],
+      selectedPickUpDate:'',
+      selectedPickUpTime:'',
+      selectedDeliveryDate:'',
+      selectedDeliveryTime:'',
     };
   },
 
@@ -81,6 +89,11 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
         case AppConstants.DELIVERY_TIME:
                 console.log(action.data);
                 CheckoutStore.updateDeliveryTime(action.data);
+                CheckoutStore.emitChange();
+                break;
+        case AppConstants.SELECTED_DELIVERY_TIME:
+                console.log(action.data);
+                CheckoutStore.updateDeliveryTime(action.io_data);
                 CheckoutStore.emitChange();
                 break;
         default:

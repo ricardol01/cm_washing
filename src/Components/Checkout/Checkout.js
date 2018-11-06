@@ -59,6 +59,7 @@ export default class Checkout extends Component {
   }
   onConfirmDeliveryTime(deliveryData){
     console.log(deliveryData);
+    CheckoutAction.selectDeliveryTime(deliveryData.selectedPrimaryOptions,deliveryData.selectedSecondaryOptions);
   }
   renderItemCells(item) {
     switch (item) {
@@ -68,6 +69,7 @@ export default class Checkout extends Component {
           cardStyle={styles.card}
           onPressedPickupTime={this.onPressedPickupTime}
           onPressedDeliverTime={this.onPressedDeliveryTime}
+          selectedPickUpDate={this.state.selectedPickUpDate}
           />
         )
         break;
