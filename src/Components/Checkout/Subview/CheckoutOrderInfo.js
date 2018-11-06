@@ -15,6 +15,7 @@ import Separator from '../../Common/Separator'
 export default class CheckoutUserInfo extends Component{
   constructor(props) {
     super(props);
+    this.renderOrderItems=this.renderOrderItems.bind(this);
   }
 
   onPressedRemove(){
@@ -23,17 +24,18 @@ export default class CheckoutUserInfo extends Component{
   renderOrderItems(){
     return (
       <View style={styles.order}>
-        <CheckoutOrderList onPressedRemove={this.onPressedRemove}/>
+        <CheckoutOrderList productList={this.props.productList} />
       </View>
     )
   }
 
   renderOrderSummary(){
+    console.log(this.props);
     return (
       <View style={styles.orderSummary}>
-        <Text style={[styles.orderSummaryText, {}]}>运费: $4.99</Text>
-        <Text style={[styles.orderSummaryText, {}]}>税: $4.99</Text>
-        <Text style={[styles.orderSummaryText, {fontSize: 14, color: Common.MAIN_COLOR, marginBottom: 0}]}>总计: $4.99</Text>
+        <Text style={[styles.orderSummaryText, {}]}>运费: ${this.props.delifee}</Text>
+        <Text style={[styles.orderSummaryText, {}]}>税: ${this.props.tax}</Text>
+        <Text style={[styles.orderSummaryText, {fontSize: 14, color: Common.MAIN_COLOR, marginBottom: 0}]}>总计: ${this.props.total}</Text>
       </View>
     )
   }

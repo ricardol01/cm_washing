@@ -310,23 +310,80 @@ export default class Home extends Component<Props> {
           <Animated.View tabLabel="全部" style={{
               flex: 1
             }}>
-            <FlatList scrollEventThrottle={1} ref={(comp) => this._scrollVew = comp} onEndReached={this._onEndReached} onEndReachedThreshold={0.3} data={this.state.productList} renderItem={this._renderProduct} getItemLayout={(data, index) => ({
+            <FlatList scrollEventThrottle={1}
+            ref={(comp) => this._scrollVew = comp}
+            onEndReached={this._onEndReached}
+            onEndReachedThreshold={0.3}
+            data={this.state.productList}
+            renderItem={this._renderProduct}
+            getItemLayout={(data, index) => ({
                 length: 250,
                 offset: 250 * index,
                 index
-              })} numColumns={2} columnWrapperStyle={{
-                marginTop: 10
+              })}
+            numColumns={2}
+            columnWrapperStyle={{
+            marginTop: 10
               }}/>
           </Animated.View>
           <Animated.View tabLabel="衣服" style={{
               flex: 1
-            }}></Animated.View>
+            }}>
+            <FlatList scrollEventThrottle={1}
+            ref={(comp) => this._scrollVew = comp}
+            onEndReached={this._onEndReached}
+            onEndReachedThreshold={0.3}
+            data={this.state.productList.filter(product=>product.cid==1)}
+            renderItem={this._renderProduct}
+            getItemLayout={(data, index) => ({
+                length: 250,
+                offset: 250 * index,
+                index
+              })}
+            numColumns={2}
+            columnWrapperStyle={{
+            marginTop: 10
+              }}/>
+            </Animated.View>
           <Animated.View tabLabel="鞋子" style={{
               flex: 1
-            }}></Animated.View>
+            }}>
+            <FlatList scrollEventThrottle={1}
+            ref={(comp) => this._scrollVew = comp}
+            onEndReached={this._onEndReached}
+            onEndReachedThreshold={0.3}
+            data={this.state.productList.filter(product=>product.cid==2)}
+            renderItem={this._renderProduct}
+            getItemLayout={(data, index) => ({
+                length: 250,
+                offset: 250 * index,
+                index
+              })}
+            numColumns={2}
+            columnWrapperStyle={{
+            marginTop: 10
+              }}/>
+          </Animated.View>
           <Animated.View tabLabel="居家" style={{
               flex: 1
-            }}></Animated.View>
+            }}>
+            <FlatList scrollEventThrottle={1}
+            ref={(comp) => this._scrollVew = comp}
+            onEndReached={this._onEndReached}
+            onEndReachedThreshold={0.3}
+            data={this.state.productList.filter(product=>product.cid==3)}
+            renderItem={this._renderProduct}
+            getItemLayout={(data, index) => ({
+                length: 250,
+                offset: 250 * index,
+                index
+              })}
+            numColumns={2}
+            columnWrapperStyle={{
+            marginTop: 10
+              }}/>
+
+          </Animated.View>
         </ScrollableTabView>
       </View>
       <Cart ref={ref => this.Cart = ref} goToCheckout={this._goToCheckout} currentCart={this.state.cartProducts} onPressedQuantity={this.updateQuantity}/>

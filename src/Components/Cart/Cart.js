@@ -27,32 +27,9 @@ export default class Cart extends BaseDialog {
   constructor(props) {
     super(props);
     this._goToCheckout=this._goToCheckout.bind(this);
-    this._onChange=this._onChange.bind(this);
   }
-  componentDidMount() {
-    CheckoutStore.addChangeListener(this._onChange);
-    // setTimeout(() => {
-    //   this.props.navigator.showModal({
-    //      screen: "CmWashingHomeAlert",
-    //      passProps: {
-    //        message:"1111111"
-    //      },
-    //      animated: false,
-    //      navigatorStyle: {navBarHidden: true},
-    //     });
-    // }, 6000);
 
-  }
-  componentWillUnmount() {
-    CheckoutStore.removeChangeListener(this._onChange);
-  }
-  _onChange() {
-    const state = CheckoutStore.getState();
-    if (state.goCheckout==1)
-    {
-      this.props.goToCheckout();
-    }
-  }
+
 
   _getContentPosition() {
     return {justifyContent: 'flex-start', alignItems: 'center'}
@@ -149,7 +126,7 @@ export default class Cart extends BaseDialog {
       products:iv_products,
     }
     CheckoutAction.beforeOrder(lo_data);
-
+    this.props.goToCheckout();
 
   }
   renderCheckoutButton() {

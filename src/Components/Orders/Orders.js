@@ -13,15 +13,17 @@ import OrderCell from './OrderCell.js'
 export default class Order extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      orders: [1, 2, 3]
-    }
+    this.state = OrderStore.getState();
     this._onChange = this._onChange.bind(this)
   }
   _onChange() {
-
+    const state = Object.assign({}, OrderStore.getState());
+    this.setState(state);
+    console.log(this.state);
   }
   componentDidMount() {
+    let token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1NDA3ODU5NDUsImV4cCI6MTU3MjMyMTk0NSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsInVpZCI6IjEifQ.RIk_KgD_Oq31NkB6FSL0_PsRhmRWA3DwOLz2Fj4bjhI';
+    OrderAction.getHistoryOrder(token);
     OrderStore.addChangeListener(this._onChange);
   }
   componentWillUnmount() {
@@ -35,6 +37,7 @@ export default class Order extends Component {
       <OrderCell
         cardStyle={styles.card}
         onPressedCell={this.onPressedCell}
+        orderInfo={item}
       />
     )
   }
@@ -42,7 +45,7 @@ export default class Order extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <FlatList style={{marginTop: 6}} data={this.state.orders} renderItem={({item}) => (this.renderCells(item))}/>
+        <FlatList style={{marginTop: 6}} data={this.state.historyOrder} renderItem={({item}) => (this.renderCells(item))}/>
       </View>
 
     )

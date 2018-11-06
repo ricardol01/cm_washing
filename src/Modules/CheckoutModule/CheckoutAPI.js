@@ -24,5 +24,26 @@ export default  {
             .then((res) => res.json())
             .catch((error) => {throw error})
   },
+  getCard(io_data){
+    const url = 'https://norgta.com/api/cmclean/v1/card';
 
+    let options = {
+        method: 'GET',
+        mode:'cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+
+    options.headers = Object.assign(options.headers,{
+        'authortoken':io_data.token,
+    })
+
+
+
+    return fetch(url,options)
+            .then((res) => res.json())
+            .catch((error) => {throw error})
+  },
 }

@@ -8,10 +8,25 @@ export default {
     async beforeOrder(io_data) {
       try{
         const data = await CheckoutModule.beforeOrder(io_data);
-        data.goCheckout=1;
         console.log(data);
+        if (data.ev_error==0) data.goCheckout=1; else alert('error');
         dispatch({
              actionType: AppConstants.CHECKOUT_INFORMATION,data
+         })
+      }catch(error){
+        console.log(error)
+        throw error;
+      }
+    },
+    async getCard() {
+      try{
+        const io_data={
+          token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1NDA3ODU5NDUsImV4cCI6MTU3MjMyMTk0NSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsInVpZCI6IjEifQ.RIk_KgD_Oq31NkB6FSL0_PsRhmRWA3DwOLz2Fj4bjhI',
+        }
+        const data = await CheckoutModule.getCard(io_data);
+        // console.log(data);
+        dispatch({
+             actionType: AppConstants.CARD_NUMBER,data
          })
       }catch(error){
         console.log(error)

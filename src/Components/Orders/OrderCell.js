@@ -19,11 +19,12 @@ export default class OrderCell extends Component{
     super(props);
   }
   renderHeader(){
+    let date = new Date(this.props.orderInfo.created*1000);
     return (
       <View style={styles.header}>
         <View style={styles.headerContent}>
-          <Text style={styles.headerText}>No.12345</Text>
-          <Text style={styles.headerText}>2018-9-4 12:00</Text>
+          <Text style={styles.headerText}>No.{this.props.orderInfo.oid}</Text>
+          <Text style={styles.headerText}>{date.toString()}</Text>
         </View>
       </View>
     )
@@ -34,21 +35,21 @@ export default class OrderCell extends Component{
         <View style={styles.deliverInfoContent}>
           <Text style={{color: Common.MAIN_COLOR, fontWeight: '800'}}>配送</Text>
           <View style={styles.deliverStatus}>
-            <Text style={styles.deliverStatusText}>等待送回</Text>
+            <Text style={styles.deliverStatusText}>{this.props.orderInfo.status_zh}</Text>
           </View>
         </View>
         <View style={[styles.deliverInfoContent, {flexDirection: 'column'}]}>
           <View style={{flexDirection: 'row', marginBottom: 8, alignItems: 'center'}}>
             <Image style={{width: 15, height: 15, marginRight: 8}} source={require("./Image/1.png")}/>
-            <Text style={{fontWeight: '600', fontSize: 12,}}>Ginny</Text>
+            <Text style={{fontWeight: '600', fontSize: 12,}}>{this.props.orderInfo.user_name}</Text>
           </View>
           <View style={{flexDirection: 'row', marginBottom: 8, alignItems: 'center'}}>
             <Image style={{width: 15, height: 15, marginRight: 8}} source={require("./Image/1.png")}/>
-            <Text style={{fontWeight: '600', fontSize: 12,}}>904-554-0094</Text>
+            <Text style={{fontWeight: '600', fontSize: 12,}}>{this.props.orderInfo.user_phone}</Text>
           </View>
           <View style={{flexDirection: 'row', marginBottom: 8, alignItems: 'center'}}>
             <Image style={{width: 15, height: 15, marginRight: 8}} source={require("./Image/1.png")}/>
-            <Text style={{fontWeight: '600', fontSize: 12,}}>3333 Young Street</Text>
+            <Text style={{fontWeight: '600', fontSize: 12,}}>{this.props.orderInfo.user_addr}</Text>
           </View>
         </View>
       </View>
@@ -72,23 +73,23 @@ export default class OrderCell extends Component{
   renderOrderItems(){
     return (
       <View style={styles.order}>
-        <OrderItemList/>
+        <OrderItemList item={this.props.orderInfo.product} />
       </View>
     )
   }
   renderOrderSummary(){
     return (
       <View style={styles.orderSummary}>
-        <Text style={[styles.orderSummaryText, {}]}>运费: $4.99</Text>
+        <Text style={[styles.orderSummaryText, {}]}>运费: ${this.props.orderInfo.delifee}</Text>
         <Text style={[styles.orderSummaryText, {}]}>税: $4.99</Text>
-        <Text style={[styles.orderSummaryText, {fontSize: 14, color: Common.MAIN_COLOR, marginBottom: 0}]}>总计: $4.99</Text>
+        <Text style={[styles.orderSummaryText, {fontSize: 14, color: Common.MAIN_COLOR, marginBottom: 0}]}>总计: ${this.props.orderInfo.total}</Text>
       </View>
     )
   }
   renderOrderComment(){
     return (
       <View style={{borderRadius: 4, backgroundColor: '#F0F0F0', marginTop: 6, }}>
-        <Text style={styles.orderCommentText}>我是备注</Text>
+        <Text style={styles.orderCommentText}>{this.props.orderInfo.comment}</Text>
       </View>
 
     )

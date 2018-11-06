@@ -40,13 +40,13 @@ export default class OrderItemList extends Component{
     return (
       <View style={{height: 30, flexDirection: 'row', flex: 1}}>
         <View style={{flexDirection: 'row', flex: 1, justifyContent: 'center',alignItems: 'center'}}>
-          <Text style={[styles.text, styles.quantityText]}>{item.quantity}</Text>
+          <Text style={[styles.text, styles.quantityText]}>{item.amount}</Text>
         </View>
         <View style={{flex: 8,justifyContent: 'center', marginLeft: -4}}>
-          <Text style={[styles.text, {marginLeft: 20,}]}>{item.name}</Text>
+          <Text style={[styles.text, {marginLeft: 20,}]}>item1</Text>
         </View>
         <View style={{flex: 2,justifyContent: 'center',}}>
-          <Text style={[styles.text, {marginLeft: 10,}]}>$ {parseFloat(Math.round(item.price * item.quantity * 100) / 100).toFixed(2)}</Text>
+          <Text style={[styles.text, {marginLeft: 10,}]}>$ {item.price}</Text>
         </View>
       </View>
     )
@@ -54,7 +54,7 @@ export default class OrderItemList extends Component{
 
   renderItemList(){
     let cells = []
-    for (i of this.state.items){
+    for (i of this.props.item){
       cells.push(this.renderCell(i));
     }
     return cells;

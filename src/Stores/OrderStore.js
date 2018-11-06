@@ -52,12 +52,13 @@ const RestaurantStore = Object.assign({},EventEmitter.prototype,{
   },
   updateHistoryOrder(data){
     const historyOrder=data;
+    console.log(historyOrder);
     this.state = Object.assign(this.state,{historyOrder});
   },
 	dispatcherIndex: register(function(action) {
 	   switch(action.actionType){
 				case AppConstants.HISTORY_ORDER:
-								RestaurantStore.calculateDeliveryFee(action.data);
+								RestaurantStore.updateHistoryOrder(action.data);
 								RestaurantStore.emitChange();
                 break;
         default:

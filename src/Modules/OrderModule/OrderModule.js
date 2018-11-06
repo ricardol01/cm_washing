@@ -6,7 +6,7 @@ import {
 
 
 export default  {
-  async getHistoryOrder({authortoken}){
+  async getHistoryOrder(authortoken){
     try {
 
       const lo_data = {
@@ -14,8 +14,8 @@ export default  {
       }
       const res = await OrderAPI.getHistoryOrder(lo_data);
       if(res.ev_error === 1) { throw 'add card fail'}
-      const eo_data = res.ea_card_info;
-      return eo_data
+      const ea_orders = res.ea_orders;
+      return ea_orders;
     } catch (e) {
       throw e
     }

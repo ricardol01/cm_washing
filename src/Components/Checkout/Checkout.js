@@ -12,25 +12,50 @@ import CheckoutDelivery from './Subview/CheckoutDelivery.js'
 import CheckoutUserInfo from './Subview/CheckoutUserInfo.js'
 import CheckoutPayment from './Subview/CheckoutPayment.js'
 import CheckoutOrderInfo from './Subview/CheckoutOrderInfo.js'
-
-export default class Home extends Component {
+import CheckoutAction from '../../Actions/CheckoutAction';
+import CheckoutStore from '../../Stores/CheckoutStore';
+export default class Checkout extends Component {
   constructor(props) {
     super(props);
+    this.state = CheckoutStore.getState();
+    this.renderItemCells=this.renderItemCells.bind(this);
+    this._onChange=this._onChange.bind(this);
+    console.log(this.state);
   }
-
+  componentDidMount() {
+    CheckoutStore.addChangeListener(this._onChange);
+    // setTimeout(() => {
+    //   this.props.navigator.showModal({
+    //      screen: "CmWashingHomeAlert",
+    //      passProps: {
+    //        message:"1111111"
+    //      },
+    //      animated: false,
+    //      navigatorStyle: {navBarHidden: true},
+    //     });
+    // }, 6000);
+    CheckoutAction.getCard()
+  }
+  _onChange() {
+    const state = Object.assign({}, CheckoutStore.getState());
+    this.setState(state);
+  }
+  componentWillUnmount() {
+    CheckoutStore.removeChangeListener(this._onChange);
+  }
   renderItemCells(item) {
     switch (item) {
       case "delivery":
-        return (<CheckoutDelivery cardStyle={styles.card}/>)
+        return (<CheckoutDelivery  cardStyle={styles.card}/>)
         break;
       case "userInfo":
-        return (<CheckoutUserInfo cardStyle={styles.card}/>)
+        return (<CheckoutUserInfo userInfo={this.state.eo_user_info} cardStyle={styles.card}/>)
         break;
       case "payment":
-        return (<CheckoutPayment cardStyle={styles.card}/>)
+        return (<CheckoutPayment cardInfo={this.state.eo_last4} cardStyle={styles.card}/>)
         break;
       case "orderInfo":
-        return (<CheckoutOrderInfo cardStyle={styles.card}/>)
+        return (<CheckoutOrderInfo productList={this.state.ea_products} delifee={this.state.ev_delifee} tax={this.state.ev_tax_w_deli} total={this.state.ev_total_w_deli} cardStyle={styles.card}/>)
         break;
       default:
     }

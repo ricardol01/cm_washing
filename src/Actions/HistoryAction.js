@@ -1,20 +1,21 @@
 import AppConstants from '../Constants/AppConstants';
 import {dispatch, register} from '../Dispatchers/AppDispatcher';
 
-import OrderModule from '../Modules/OrderModule/OrderModule';
+import HistoryModule from '../Modules/HistoryModule/HistoryModule';
 import {NativeModules} from 'react-native';
 export default {
 
-    async getHistoryOrder(io_data) {
+    async HistoryOrder(io_data) {
       try{
-        const data = await OrderModule.getHistoryOrder(io_data);
-        
+        const data = await HistoryModule.HistoryOrder(io_data);
+        console.log(data);
         dispatch({
-             actionType: AppConstants.HISTORY_ORDER,data
+             actionType: AppConstants.HISTORY_LIST,data
          })
       }catch(error){
         console.log(error)
-        throw 'no Token'
+        throw error;
       }
     },
+
 }
