@@ -38,7 +38,6 @@ const CheckoutStore = Object.assign({},EventEmitter.prototype,{
   },
 
 
-
 	emitChange(){
 			this.emit(CHANGE_EVENT)
 	},

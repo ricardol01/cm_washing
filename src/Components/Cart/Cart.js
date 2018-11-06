@@ -21,15 +21,13 @@ export default class Cart extends BaseDialog {
 
   static defaultProps = {
     removeSubviews: false,
-    itemHeight: 40,
   }
 
   constructor(props) {
     super(props);
     this._goToCheckout=this._goToCheckout.bind(this);
+    this.clearCart=this.clearCart.bind(this);
   }
-
-
 
   _getContentPosition() {
     return {justifyContent: 'flex-start', alignItems: 'center'}
@@ -37,11 +35,28 @@ export default class Cart extends BaseDialog {
 
   clearCart(){
 
+    this.dismiss();
   }
 
   onPressedCheckout(){
 
   }
+
+  shouldAllowedCheckout(){
+    return this.getCartTotal() >= 30;
+  }
+  getCartTotal(){
+    let total = 0;
+    for (i of this.props.currentCart){
+      total += i.display_price * i.amount;
+    }
+    return total.toFixed(2);
+  }
+
+  getCartTax(){
+    return (this.getCartTotal() * 0.13).toFixed(2);
+  }
+
   renderCart() {
     return (
       <View style={{margin: 12}}>
@@ -66,7 +81,7 @@ export default class Cart extends BaseDialog {
     )
   }
   renderCartItems(){
-    const cellHeight = 40;
+    const cellHeight = 36;
     return (
       <View style={{height: cellHeight * this.props.currentCart.length, marginTop: 12, marginBottom: 4,}}>
         <CartItemList items={this.props.currentCart} onPressedQuantity={this.props.onPressedQuantity} />
@@ -75,7 +90,7 @@ export default class Cart extends BaseDialog {
   }
   renderCartFooter(){
     return (
-      <View style={{height: 32, marginTop: 12, flexDirection: 'row'}}>
+      <View style={{height: 20, marginTop: 20, flexDirection: 'row'}}>
         <View style={{flex: 1, flexDirection: 'column'}}>
           { this.state.allowedShipping &&
             <View style={{flexDirection: 'row'}}>
@@ -102,15 +117,19 @@ export default class Cart extends BaseDialog {
             </View>
           }
         </View>
-        <View style={{flex: 1}}>
-          <Text style={styles.taxText}>税: $ {this.state.tax}</Text>
-          <Text style={styles.totalText}>总计: $ {this.state.subtotal}</Text>
+        <View style={{flex: 1, marginTop: -4}}>
+          <Text style={styles.taxText}>税: ${this.getCartTax()}</Text>
+          <Text style={styles.totalText}>总计: ${this.getCartTotal()}</Text>
         </View>
       </View>
     )
   }
   _goToCheckout()
   {
+    if (!this.shouldAllowedCheckout()){
+      return;
+    }
+
     let iv_products=[];
     let products=HomeStore.getItem();
     for (i=0;i<products.length;i++)
@@ -127,25 +146,22 @@ export default class Cart extends BaseDialog {
     }
     CheckoutAction.beforeOrder(lo_data);
     this.props.goToCheckout();
-
   }
+
   renderCheckoutButton() {
     return (
-      <TouchableOpacity onPress={this._goToCheckout} style={styles.checkoutButton}>
+      <TouchableOpacity
+        onPress={this._goToCheckout}
+        style={[styles.checkoutButton, !this.shouldAllowedCheckout() ? {backgroundColor: '#999999'}: {}]}>
         <View style={{flex:1,justifyContent: 'center',
             alignItems: 'center',}} onPress={this.onPressedCheckout}>
-          <Text style={{color: 'white', fontSize: 16, fontWeight: '700',}}>结算</Text>
+          <Text style={{color: 'white', fontSize: 15, fontWeight: '700',}}>结算</Text>
         </View>
       </TouchableOpacity>
     )
   }
   renderContent() {
-    const sideMargin = 12;
-    return <View style={{
-        width: this.mScreenWidth - (sideMargin * 2),
-        backgroundColor: '#ffffff',
-        marginTop: 68,
-      }}>
+    return <View style={[styles.container, {width: this.mScreenWidth - (12 * 2),}]}>
       { this.renderCart() }
       {this.renderCheckoutButton()}
     </View>
@@ -153,6 +169,16 @@ export default class Cart extends BaseDialog {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+    marginTop: 48,
+    borderRadius: 6,
+    elevation: 5,
+    shadowOffset: {width: 0, height: 0},
+    shadowColor: 'grey',
+    shadowOpacity: 0.3,
+    shadowRadius: 2
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center'
@@ -160,7 +186,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     textAlign: 'center',
     fontWeight: '800',
-    fontSize: 16,
+    fontSize: 15,
   },
   clearButton: {
 
@@ -169,7 +195,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: "grey",
     fontWeight: '700',
-    fontSize: 11,
+    fontSize: 10,
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 8,
@@ -183,13 +209,13 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   shippingText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     marginBottom: 8,
   },
   taxText: {
     textAlign: 'right',
-    fontSize: 12,
+    fontSize: 11,
     color: 'grey',
     fontWeight: '600',
     marginBottom: 4,
@@ -207,5 +233,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
     marginTop: 22,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
   }
 });

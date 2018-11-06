@@ -18,9 +18,6 @@ export default class CheckoutUserInfo extends Component{
     this.renderOrderItems=this.renderOrderItems.bind(this);
   }
 
-  onPressedRemove(){
-    console.log(123);
-  }
   renderOrderItems(){
     return (
       <View style={styles.order}>
@@ -30,7 +27,6 @@ export default class CheckoutUserInfo extends Component{
   }
 
   renderOrderSummary(){
-    console.log(this.props);
     return (
       <View style={styles.orderSummary}>
         <Text style={[styles.orderSummaryText, {}]}>运费: ${this.props.delifee}</Text>

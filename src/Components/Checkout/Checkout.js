@@ -61,12 +61,13 @@ export default class Checkout extends Component {
   renderItemCells(item) {
     switch (item) {
       case "delivery":
-        return (<CheckoutDelivery
+        return (
+          <CheckoutDelivery
           cardStyle={styles.card}
           onPressedPickupTime={this.onPressedPickupTime}
           onPressedDeliverTime={this.onPressedDeliveryTime}
           />
-      )
+        )
         break;
       case "userInfo":
         return (<CheckoutUserInfo userInfo={this.state.eo_user_info} cardStyle={styles.card}/>)
@@ -108,7 +109,6 @@ export default class Checkout extends Component {
         }
 
       </View>
-
     )
   }
 }
