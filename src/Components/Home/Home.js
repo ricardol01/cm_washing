@@ -115,9 +115,9 @@ export default class Home extends Component<Props> {
     }
     return (
       <View style={styles.card}>
-        <View style={{ width: 0.45 * width, height: 0.23 * height, backgroundColor: 'white', borderRadius: 10 }}>
-          <View style={{ flex: 2 }}>
-            <Image source={{ uri: item.image }} style={{ flex: 1, }}/>
+        <View style={{ width: 0.45 * width, height: 0.23 * height, backgroundColor: 'white', borderRadius: 10, overflow: 'hidden', }}>
+          <View style={{ flex: 2}}>
+            <Image source={{ uri: item.image }} style={{ flex: 1 }}/>
           </View>
           <View style={{ flex: 1, marginTop: 4}}>
             <View style={{ flex: 1, justifyContent: 'center' }}>

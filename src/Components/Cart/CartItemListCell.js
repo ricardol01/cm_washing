@@ -30,7 +30,7 @@ export default class CartItemListCell extends Component {
           <Text style={[styles.text, {marginLeft: 20,}]}>{this.props.item.name_zh}</Text>
         </View>
         <View style={{flex: 1,justifyContent: 'center',}}>
-          <Text style={[styles.text, {marginLeft: 20,}]}>$ {parseFloat(Math.round(this.props.item.display_price * this.props.item.amount * 100) / 100).toFixed(2)}</Text>
+          <Text style={[styles.text, {marginLeft: 20, textAlign: 'right'}]}>$ {parseFloat(Math.round(this.props.item.display_price * this.props.item.amount * 100) / 100).toFixed(2)}</Text>
         </View>
       </View>
     )
@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 13,
   }
 });
