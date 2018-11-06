@@ -152,19 +152,39 @@ export default class Home extends Component<Props> {
       </View>
     </View>)
   }
-
+  renderCartButton(){
+    let itemCount = 0;
+    for (i of this.state.cartProducts){
+      itemCount += i.amount;
+    }
+    console.log(itemCount);
+    return(
+      <View style={{flexDirection: 'row', flex: 1}}>
+        <View style={{flex: 1}}></View>
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => this.Cart.show()}>
+            <Image source={require('./image/Cart.png')} style={{ width: 30, height: 30}}/>
+          </TouchableOpacity>
+          <View style={{position: 'absolute', left: 20, bottom: 20, backgroundColor: '#f24c58', paddingLeft: 4, paddingRight: 4, paddingTop: 1, paddingBottom: 1, textAlign: 'center', borderRadius: 100,}}>
+            <Text style={{fontSize: 9,  color: 'white', fontWeight: '600'}}>
+              {itemCount}
+            </Text>
+          </View>
+        </View>
+        <View style={{flex: 1}}></View>
+      </View>
+    )
+  }
   renderNavigationBar(){
     return (
       <View style={{ width: width, height: 48, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
         <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}>
-          <Image source={require('./image/Cart.png')} style={{ width: 28, height: 28 }}/>
+          <Image source={require('./image/Cart.png')} style={{ width: 30, height: 30 }}/>
         </View>
         <Text style={{ flex: 2, textAlign: 'center', fontWeight: '800', fontSize: 16, }}>
           馋猫干洗
         </Text>
-        <TouchableOpacity onPress={() => this.Cart.show()} style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
-          <Image source={require('./image/Cart.png')} style={{ width: 28, height: 28}}/>
-        </TouchableOpacity>
+        {this.renderCartButton()}
       </View>
     )
   }
