@@ -88,7 +88,7 @@ export default  {
       const res = await CheckoutAPI.placeOrder(lo_data);
       console.log(res);
       const eo_data = {
-        placeOrderInfo:res.ev_error,
+        placeOrderStatus:res.ev_error,
       }
       return eo_data
     } catch (e) {

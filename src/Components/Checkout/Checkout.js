@@ -30,6 +30,8 @@ export default class Checkout extends Component {
     this.onPressedDeliveryTime = this.onPressedDeliveryTime.bind(this);
     this.onConfirmPickupTime = this.onConfirmPickupTime.bind(this);
     this.onConfirmDeliveryTime = this.onConfirmDeliveryTime.bind(this);
+    this._placeOrder=this._placeOrder.bind(this);
+    this.onChangeComment=this.onChangeComment.bind(this);
   }
   componentDidMount() {
     CheckoutStore.addChangeListener(this._onChange);
@@ -41,6 +43,7 @@ export default class Checkout extends Component {
 
     // 同步delivery picker的data source
     this.PickerDelivery.forceReloadDataSource();
+    if (this.state.placeOrderStatus==0) {alert('下单成功')}
   }
   componentWillUnmount() {
     CheckoutStore.removeChangeListener(this._onChange);
@@ -62,8 +65,31 @@ export default class Checkout extends Component {
     console.log(deliveryData);
     CheckoutAction.selectDeliveryTime(deliveryData.selectedPrimaryOptions,deliveryData.selectedSecondaryOptions);
   }
+  _placeOrder()
+  {
+    let productsList=[];
+    for (i of this.state.ea_products)
+    {
+      let product={
+        'sku_id':i.sku_id,
+        'amount':i.amount,
+      }
+      productsList.push(product);
+    }
+    let data={
+      'location_id':this.state.ea_store_info[0].location_id,
+      'pickup_date':this.state.selectedPickUpDate,
+      'pickup_time':this.state.selectedPickUpTime,
+      'delivery_date':this.state.selectedDeliveryDate,
+      'delivery_time':this.state.selectedDeliveryTime,
+      'comment':this.state.comment,
+      'products':productsList,
+    };
+    console.log(data);
+    CheckoutAction.placeOrder(data);
+  }
   onChangeComment(comment){
-    console.log(comment);
+    this.setState({comment:comment})
   }
   renderItemCells(item) {
     switch (item) {
@@ -109,8 +135,14 @@ export default class Checkout extends Component {
         <FlatList data={['delivery', 'userInfo', 'payment', 'orderInfo']} renderItem={({item}) => (this.renderItemCells(item))}/>
 
         </View>
-        <View style={{width:width,height:0.1*height,position:'absolute',bottom:0,backgroundColor:'green'}}>
-        </View>
+        <TouchableOpacity style={{position:'absolute',bottom:0,backgroundColor:'#2ad3be'}} onPress={this._placeOrder}>
+          <View style={{width:width,height:0.1*height,alignItems:'center',justifyContent:'center'}}>
+            <Text style={{fontSize:20,color:'white'}}>
+              下单
+            </Text>
+          </View>
+
+        </TouchableOpacity>
         {
           this.state.ea_pickup_time.length != 0 &&
           <DateTimePicker
