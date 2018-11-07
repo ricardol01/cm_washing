@@ -16,10 +16,12 @@ import Orders from './src/Components/Orders/Orders';
 import Settings from './src/Components/Settings/Settings';
 import Checkout from './src/Components/Checkout/Checkout';
 
+import CMLifeHome from './src/Components/CMLifeHome/Home';
+
 
 import CmWashingHomeAlert from './src/Components/HomeAlert/CmWashingHomeAlert';
 Navigation.registerComponent('checkout', () => Checkout);
-Navigation.registerComponent('home', () => Home);
+Navigation.registerComponent('home', () => CMLifeHome);
 Navigation.registerComponent('orders', () => Orders);
 Navigation.registerComponent('settings', () => Settings);
 
